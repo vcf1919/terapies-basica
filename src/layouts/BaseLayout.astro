@@ -1,0 +1,84 @@
+---
+/** Layout base: <head> SEO, tema, tipografías, cabecera y pie. Código de PLANTILLA. */
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import { getSite } from '../lib/config';
+import { resolveImage } from '../lib/images';
+import { resolveTheme } from '../themes';
+import { localBusinessLd, ldJson } from '../lib/seo';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBar from '../components/MobileBar.astro';
+import { t } from '../i18n/es';
+import { horarioCliente } from '../lib/horario';
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+  extraLd?: unknown[];
+}
+const { config } = getSite();
+const theme = resolveTheme(config);
+const { title, description, noindex = false, extraLd = [] } = Astro.props;
+
+const site = (Astro.site ?? new URL(config.sitio.url)).toString().replace(/\/$/, '');
+const canonical = new URL(Astro.url.pathname, site + '/').toString();
+const pageTitle = title ? `${title} · ${config.negocio.nombre}` : config.seo.title;
+const pageDesc = description ?? config.seo.description;
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+
+const og = await getImage({ src: await resolveImage(config.seo.imagenOG.src), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+const ogUrl = new URL(og.src, site + '/').toString();
+const logoMeta = await resolveImage(config.negocio.logo.src);
+const logoUrl = new URL(logoMeta.src, site + '/').toString();
+const favicon = config.sitio.favicon
+  ?? (logoMeta.format === 'svg' ? logoMeta.src : (await getImage({ src: logoMeta, width: 96, height: 96, format: 'png' })).src);
+
+const ld = [localBusinessLd(config, { url: site + '/', image: ogUrl, logo: logoUrl }), ...extraLd];
+---
+<!doctype html>
+<html lang={t.lang} data-variante={theme.id}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDesc} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <meta name="theme-color" content={theme.colores.fondo} />
+    <link rel="icon" href={favicon} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content={config.negocio.nombre} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDesc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={config.seo.imagenOG.alt} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    {theme.preload.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+    <style is:inline set:html={theme.fontFaces + theme.css}></style>
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    {ld.map((o) => <script type="application/ld+json" is:inline set:html={ldJson(o)} />)}
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">{t.menu.saltar}</a>
+    <Header orden={theme.orden} isHome={isHome} />
+    <main id="contenido" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <MobileBar />
+    <script type="application/json" id="horario-data" set:html={ldJson({ ...horarioCliente(config.horario), t: t.estado, dias: t.dias.map((k) => t.diasNombre[k]) })} />
+    <script>
+      import '../scripts/reveal';
+      import '../scripts/open-status';
+    </script>
+  </body>
+</html>

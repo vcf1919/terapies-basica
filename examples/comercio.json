@@ -1,0 +1,378 @@
+{
+  "sitio": {
+    "url": "https://verdal.example"
+  },
+  "negocio": {
+    "nombre": "Verdal",
+    "sector": "Floristería y plantas",
+    "eslogan": "Plantas y flores de temporada, de aquí.",
+    "descripcionCorta": "Floristería en Massanassa con plantas de interior, ramos de temporada, flor para eventos y envío a domicilio en l'Horta Sud.",
+    "anioApertura": 2015,
+    "logo": {
+      "src": "logo.svg",
+      "alt": "Verdal, plantes i flors"
+    },
+    "logoClaro": {
+      "src": "logo-claro.svg",
+      "alt": "Verdal, plantes i flors"
+    }
+  },
+  "legal": {
+    "titular": "Verdal Plantes, S.L. (ficticio)",
+    "nif": "B00000001"
+  },
+  "contacto": {
+    "telefono": "+34 961 000 303",
+    "whatsapp": "+34 600 000 303",
+    "email": "hola@verdal.example",
+    "direccion": {
+      "calle": "Carrer Major de l'Exemple, 40",
+      "cp": "46470",
+      "localidad": "Massanassa",
+      "provincia": "Valencia"
+    },
+    "coordenadas": {
+      "lat": 39.4108,
+      "lng": -0.3996
+    },
+    "googleMaps": "https://www.google.com/maps/search/?api=1&query=39.4108,-0.3996",
+    "redes": {
+      "instagram": "https://instagram.com/example",
+      "facebook": "https://facebook.com/example",
+      "youtube": "https://youtube.com/@example"
+    }
+  },
+  "horario": {
+    "lunes": [
+      [
+        "09:00",
+        "13:30"
+      ],
+      [
+        "17:00",
+        "20:00"
+      ]
+    ],
+    "martes": [
+      [
+        "09:00",
+        "13:30"
+      ],
+      [
+        "17:00",
+        "20:00"
+      ]
+    ],
+    "miercoles": [
+      [
+        "09:00",
+        "13:30"
+      ],
+      [
+        "17:00",
+        "20:00"
+      ]
+    ],
+    "jueves": [
+      [
+        "09:00",
+        "13:30"
+      ],
+      [
+        "17:00",
+        "20:00"
+      ]
+    ],
+    "viernes": [
+      [
+        "09:00",
+        "13:30"
+      ],
+      [
+        "17:00",
+        "20:00"
+      ]
+    ],
+    "sabado": [
+      [
+        "09:00",
+        "14:00"
+      ]
+    ],
+    "domingo": [
+      [
+        "09:30",
+        "13:30"
+      ]
+    ],
+    "nota": "Domingos solo por la mañana."
+  },
+  "reservas": {
+    "tipo": "whatsapp",
+    "mensaje": "Hola Verdal, quería hacer un encargo:",
+    "textoBoton": "Encargar por WhatsApp"
+  },
+  "tema": {
+    "variante": "comercio"
+  },
+  "secciones": {
+    "hero": {
+      "antetitulo": "Floristería en Massanassa",
+      "titular": "Flores de temporada y plantas *que duran*.",
+      "subtitulo": "Ramos hechos al momento, plantas de interior con consejos de cuidado y envío a domicilio en l'Horta Sud.",
+      "ctaSecundario": {
+        "texto": "Ver productos",
+        "href": "#servicios"
+      },
+      "fondo": {
+        "tipo": "imagen",
+        "imagen": {
+          "src": "hero.jpg",
+          "alt": "Mostrador de la floristería lleno de flores de temporada"
+        }
+      }
+    },
+    "servicios": {
+      "antetitulo": "Lo que encontrarás",
+      "titulo": "Elegidos cada *semana*.",
+      "intro": "Trabajamos con productores valencianos. Pregunta por la flor de la semana.",
+      "items": [
+        {
+          "nombre": "Ramos de temporada",
+          "descripcion": "Composiciones con la flor más fresca de la semana, envueltas en papel kraft.",
+          "precioDesde": 25,
+          "imagen": {
+            "src": "producto-1.jpg",
+            "alt": "Ramo de flores de temporada en tonos cálidos"
+          },
+          "destacado": true
+        },
+        {
+          "nombre": "Plantas de interior",
+          "descripcion": "Monsteras, potos, calateas y más, con maceta y guía de cuidados.",
+          "precioDesde": 12,
+          "imagen": {
+            "src": "producto-2.jpg",
+            "alt": "Planta de interior en maceta de cerámica"
+          }
+        },
+        {
+          "nombre": "Suculentas y cactus",
+          "descripcion": "Pequeñas plantas resistentes, perfectas para regalar.",
+          "precioDesde": 6,
+          "imagen": {
+            "src": "producto-3.jpg",
+            "alt": "Conjunto de suculentas en macetas pequeñas"
+          }
+        },
+        {
+          "nombre": "Flor para eventos",
+          "descripcion": "Bodas, comuniones y celebraciones: diseño floral a medida.",
+          "imagen": {
+            "src": "producto-4.jpg",
+            "alt": "Centro de mesa floral para un evento"
+          }
+        },
+        {
+          "nombre": "Macetas y cerámica",
+          "descripcion": "Cerámica artesana de Manises y macetas de barro.",
+          "precioDesde": 9,
+          "imagen": {
+            "src": "producto-5.jpg",
+            "alt": "Macetas de cerámica artesana"
+          }
+        },
+        {
+          "nombre": "Envío a domicilio",
+          "descripcion": "Entregas en el día en Massanassa, Catarroja, Albal y alrededores.",
+          "precioDesde": 5,
+          "imagen": {
+            "src": "producto-6.jpg",
+            "alt": "Ramo preparado para envío"
+          }
+        }
+      ],
+      "nota": "Encargos con 24 h de antelación para eventos."
+    },
+    "galeria": {
+      "antetitulo": "La tienda",
+      "titulo": "Pásate a *verla*.",
+      "imagenes": [
+        {
+          "src": "galeria-1.jpg",
+          "alt": "Fachada de la floristería con plantas en la entrada"
+        },
+        {
+          "src": "galeria-2.jpg",
+          "alt": "Cubos con flores cortadas"
+        },
+        {
+          "src": "galeria-3.jpg",
+          "alt": "Rincón de plantas de interior"
+        },
+        {
+          "src": "galeria-4.jpg",
+          "alt": "Preparación de un ramo en el taller"
+        },
+        {
+          "src": "galeria-5.jpg",
+          "alt": "Estantería de cerámica artesana"
+        },
+        {
+          "src": "galeria-6.jpg",
+          "alt": "Detalle de flores secas"
+        }
+      ]
+    },
+    "sobre": {
+      "antetitulo": "Quiénes somos",
+      "titulo": "Una floristería de *barrio*, de las de siempre.",
+      "parrafos": [
+        "Verdal abrió en 2015 en la calle Mayor. Desde entonces preparamos ramos para cumpleaños, bodas y despedidas del pueblo y de los de al lado.",
+        "Compramos a productores de la Comunitat Valenciana siempre que podemos: la flor llega más fresca y dura más en tu casa."
+      ],
+      "imagen": {
+        "src": "sobre.jpg",
+        "alt": "Interior de la floristería con flores y plantas"
+      },
+      "cifras": [
+        {
+          "valor": "anios",
+          "etiqueta": "años en Massanassa"
+        },
+        {
+          "valor": 120,
+          "prefijo": "+",
+          "etiqueta": "variedades de planta"
+        },
+        {
+          "valor": 3,
+          "etiqueta": "pueblos con envío en el día"
+        }
+      ]
+    },
+    "opiniones": {
+      "antetitulo": "Opiniones",
+      "titulo": "Lo que dicen en *Google*.",
+      "notaMedia": 4.8,
+      "totalResenas": 96,
+      "urlGoogle": "https://www.google.com/maps/search/?api=1&query=39.4108,-0.3996",
+      "resenas": [
+        {
+          "autor": "Rosa C.",
+          "nota": 5,
+          "texto": "Encargué un ramo por WhatsApp y llegó precioso y a la hora. Muy atentos.",
+          "fecha": "Noviembre 2026"
+        },
+        {
+          "autor": "Vicent B.",
+          "nota": 5,
+          "texto": "Hicieron las flores de nuestra boda y fueron un acierto total. Gracias por todo.",
+          "fecha": "Octubre 2026"
+        },
+        {
+          "autor": "Amparo L.",
+          "nota": 5,
+          "texto": "Las plantas salen sanísimas y te explican cómo cuidarlas. Mi monstera está enorme.",
+          "fecha": "Octubre 2026"
+        },
+        {
+          "autor": "Héctor N.",
+          "nota": 4,
+          "texto": "Buena variedad y precios razonables. El domingo por la mañana abierto, muy útil.",
+          "fecha": "Septiembre 2026"
+        },
+        {
+          "autor": "Isabel M.",
+          "nota": 5,
+          "texto": "Siempre que necesito un detalle voy a Verdal. Ramos bonitos y diferentes.",
+          "fecha": "Agosto 2026"
+        },
+        {
+          "autor": "Toni P.",
+          "nota": 5,
+          "texto": "Trato cercano y mucho gusto. Se nota que les encanta lo que hacen.",
+          "fecha": "Julio 2026"
+        }
+      ]
+    },
+    "equipo": {
+      "activa": false,
+      "titulo": "El equipo.",
+      "miembros": [
+        {
+          "nombre": "Ana Verdú",
+          "cargo": "Florista",
+          "foto": {
+            "src": "equipo-1.jpg",
+            "alt": "Retrato de Ana Verdú"
+          }
+        }
+      ]
+    },
+    "proceso": {
+      "antetitulo": "Encargos",
+      "titulo": "Encargar es *así de fácil*.",
+      "pasos": [
+        {
+          "titulo": "Escríbenos",
+          "texto": "Cuéntanos por WhatsApp qué buscas, para quién y tu presupuesto."
+        },
+        {
+          "titulo": "Te proponemos",
+          "texto": "Te enviamos foto de ideas con la flor disponible ese día."
+        },
+        {
+          "titulo": "Recoge o recibe",
+          "texto": "Pasa a recogerlo o te lo llevamos a domicilio."
+        }
+      ]
+    },
+    "faq": {
+      "antetitulo": "Preguntas",
+      "titulo": "Preguntas *frecuentes*.",
+      "preguntas": [
+        {
+          "pregunta": "¿Hacéis envíos a domicilio?",
+          "respuesta": "Sí, en Massanassa, Catarroja y Albal entregamos en el día si haces el pedido antes de las 12:00."
+        },
+        {
+          "pregunta": "¿Cómo pago un encargo por WhatsApp?",
+          "respuesta": "Por Bizum o transferencia, o al recogerlo en tienda."
+        },
+        {
+          "pregunta": "¿Puedo personalizar la tarjeta?",
+          "respuesta": "Claro, indícanos el mensaje y lo escribimos a mano."
+        }
+      ]
+    },
+    "ubicacion": {
+      "antetitulo": "La tienda",
+      "titulo": "En la calle Mayor de *Massanassa*.",
+      "indicaciones": [
+        "Carga y descarga frente a la tienda",
+        "Metrovalencia: estación de Massanassa (L1)"
+      ],
+      "mapa": {
+        "zoom": 17,
+        "inclinacion": 62,
+        "rotacion": 24
+      }
+    },
+    "ctaFinal": {
+      "antetitulo": "Encargos",
+      "titulo": "¿Tienes algo que *celebrar*?",
+      "texto": "Escríbenos por WhatsApp y te preparamos el ramo perfecto para hoy mismo."
+    }
+  },
+  "seo": {
+    "title": "Verdal · Floristería y plantas en Massanassa",
+    "description": "Floristería en Massanassa: ramos de temporada, plantas de interior, flor para eventos y envío a domicilio en Catarroja, Albal y l'Horta Sud.",
+    "imagenOG": {
+      "src": "og.jpg",
+      "alt": "Floristería Verdal en Massanassa"
+    },
+    "schemaType": "Florist",
+    "rangoPrecio": "€"
+  }
+}

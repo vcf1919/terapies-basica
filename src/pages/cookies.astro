@@ -1,0 +1,28 @@
+---
+/** Política de cookies. Texto genérico: REVISAR si se añade analítica o servicios de terceros. */
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { getSite } from '../lib/config';
+const { config } = getSite();
+const host = new URL(config.sitio.url).host;
+---
+<LegalLayout title="Política de cookies" description={`Información sobre el uso de cookies en ${host}.`}>
+  <h2>1. ¿Qué son las cookies?</h2>
+  <p>Las cookies son pequeños archivos que algunos sitios web guardan en tu navegador para recordar información sobre tu visita.</p>
+
+  <h2>2. Cookies que usa este sitio</h2>
+  <p><strong>Este sitio web no utiliza cookies propias ni de terceros con fines analíticos, publicitarios o de seguimiento.</strong> Por eso no se muestra un banner de consentimiento.</p>
+  <table>
+    <thead><tr><th scope="col">Servicio</th><th scope="col">Uso</th><th scope="col">Cookies</th></tr></thead>
+    <tbody>
+      <tr><td>OpenFreeMap / MapLibre</td><td>Mostrar el mapa de ubicación</td><td>No instala cookies</td></tr>
+      <tr><td>Cloudflare Pages</td><td>Alojamiento y entrega del sitio</td><td>Solo técnicas, si fueran necesarias por seguridad</td></tr>
+    </tbody>
+  </table>
+  <p>Los enlaces a Google Maps, WhatsApp, redes sociales o plataformas de reserva te llevan a sitios externos que tienen sus propias políticas de cookies.</p>
+
+  <h2>3. Cómo gestionar las cookies</h2>
+  <p>Puedes eliminar o bloquear las cookies desde la configuración de tu navegador en cualquier momento.</p>
+
+  <h2>4. Cambios</h2>
+  <p>Si en el futuro se incorporan herramientas que usen cookies no técnicas, esta política se actualizará y se solicitará tu consentimiento previo.</p>
+</LegalLayout>

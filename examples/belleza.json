@@ -1,0 +1,347 @@
+{
+  "sitio": {
+    "url": "https://olivera.example"
+  },
+  "negocio": {
+    "nombre": "Olivera Estudi",
+    "sector": "Estudio de belleza",
+    "eslogan": "Belleza pausada, hecha a mano.",
+    "descripcionCorta": "Estudio de belleza en Albal: tratamientos faciales, manicura, cejas y pestañas con cosmética natural y tiempo para ti.",
+    "anioApertura": 2018,
+    "logo": {
+      "src": "logo.svg",
+      "alt": "Olivera Estudi"
+    },
+    "logoClaro": {
+      "src": "logo-claro.svg",
+      "alt": "Olivera Estudi"
+    }
+  },
+  "legal": {
+    "titular": "Nombre Apellido Apellido (ficticio)",
+    "nif": "00000000T"
+  },
+  "contacto": {
+    "telefono": "+34 961 000 202",
+    "whatsapp": "+34 600 000 202",
+    "email": "hola@olivera.example",
+    "direccion": {
+      "calle": "Avinguda de l'Exemple, 5",
+      "cp": "46470",
+      "localidad": "Albal",
+      "provincia": "Valencia"
+    },
+    "coordenadas": {
+      "lat": 39.3972,
+      "lng": -0.4128
+    },
+    "googleMaps": "https://www.google.com/maps/search/?api=1&query=39.3972,-0.4128",
+    "redes": {
+      "instagram": "https://instagram.com/example",
+      "tiktok": "https://tiktok.com/@example"
+    }
+  },
+  "horario": {
+    "lunes": "cerrado",
+    "martes": [
+      [
+        "10:00",
+        "14:00"
+      ],
+      [
+        "16:00",
+        "20:00"
+      ]
+    ],
+    "miercoles": [
+      [
+        "10:00",
+        "14:00"
+      ],
+      [
+        "16:00",
+        "20:00"
+      ]
+    ],
+    "jueves": [
+      [
+        "10:00",
+        "20:00"
+      ]
+    ],
+    "viernes": [
+      [
+        "10:00",
+        "20:00"
+      ]
+    ],
+    "sabado": [
+      [
+        "09:30",
+        "14:00"
+      ]
+    ],
+    "domingo": "cerrado",
+    "nota": "Solo con cita previa."
+  },
+  "reservas": {
+    "tipo": "booksy",
+    "url": "https://booksy.com/es-es/",
+    "textoBoton": "Reservar cita"
+  },
+  "tema": {
+    "variante": "belleza"
+  },
+  "secciones": {
+    "hero": {
+      "titular": "El ritual que te *mereces*, sin prisas.",
+      "subtitulo": "Faciales, manos y mirada en un estudio pequeño y luminoso de Albal. Una clienta cada vez.",
+      "ctaSecundario": {
+        "texto": "Ver la carta",
+        "href": "#servicios"
+      },
+      "fondo": {
+        "tipo": "imagen",
+        "imagen": {
+          "src": "hero.jpg",
+          "alt": "Interior cálido del estudio con camilla y luz natural"
+        }
+      }
+    },
+    "servicios": {
+      "antetitulo": "La carta",
+      "titulo": "Tratamientos *a medida*.",
+      "intro": "Cada servicio empieza con una pequeña consulta para adaptar productos y tiempos a tu piel.",
+      "items": [
+        {
+          "nombre": "Higiene facial profunda",
+          "descripcion": "Limpieza, extracción, peeling enzimático y mascarilla según tu tipo de piel.",
+          "precioDesde": 55,
+          "duracion": 75
+        },
+        {
+          "nombre": "Ritual antiedad",
+          "descripcion": "Radiofrecuencia facial y masaje kobido para redefinir el óvalo.",
+          "precioDesde": 80,
+          "duracion": 90
+        },
+        {
+          "nombre": "Manicura rusa",
+          "descripcion": "Preparación de cutícula en seco y esmaltado semipermanente de larga duración.",
+          "precioDesde": 32,
+          "duracion": 75
+        },
+        {
+          "nombre": "Lifting y tinte de pestañas",
+          "descripcion": "Curvatura natural durante seis semanas, sin extensiones.",
+          "precioDesde": 45,
+          "duracion": 60
+        },
+        {
+          "nombre": "Diseño de cejas",
+          "descripcion": "Visagismo, depilación con hilo y laminado opcional.",
+          "precioDesde": 18,
+          "duracion": 30
+        },
+        {
+          "nombre": "Pedicura spa",
+          "descripcion": "Baño de sales, exfoliación, tratamiento de durezas y esmaltado.",
+          "precioDesde": 38,
+          "duracion": 60
+        }
+      ],
+      "nota": "Precios con IVA incluido."
+    },
+    "sobre": {
+      "antetitulo": "El estudio",
+      "titulo": "Un espacio pequeño, *pensado* para ti.",
+      "parrafos": [
+        "Olivera nació en 2018 con una idea sencilla: tratamientos honestos, cosmética de calidad y tiempo de verdad para cada clienta.",
+        "Trabajamos con firmas de cosmética natural y nos formamos cada temporada para traerte técnicas nuevas sin perder la calma del estudio."
+      ],
+      "imagen": {
+        "src": "sobre.jpg",
+        "alt": "Detalle de productos cosméticos sobre una mesa de madera"
+      },
+      "cifras": [
+        {
+          "valor": "anios",
+          "etiqueta": "años en Albal"
+        },
+        {
+          "valor": 1,
+          "etiqueta": "clienta cada vez"
+        },
+        {
+          "valor": 98,
+          "sufijo": "%",
+          "etiqueta": "repite su tratamiento"
+        }
+      ]
+    },
+    "galeria": {
+      "antetitulo": "Galería",
+      "titulo": "Detalles del *estudio*.",
+      "imagenes": [
+        {
+          "src": "galeria-1.jpg",
+          "alt": "Camilla preparada para un tratamiento facial",
+          "pie": "Cabina facial"
+        },
+        {
+          "src": "galeria-2.jpg",
+          "alt": "Manos con manicura en tono nude"
+        },
+        {
+          "src": "galeria-3.jpg",
+          "alt": "Estantería con cosmética natural"
+        },
+        {
+          "src": "galeria-4.jpg",
+          "alt": "Detalle de pestañas tras un lifting"
+        },
+        {
+          "src": "galeria-5.jpg",
+          "alt": "Rincón de espera con plantas y luz natural"
+        },
+        {
+          "src": "galeria-6.jpg",
+          "alt": "Toallas y aceites preparados para el ritual"
+        }
+      ]
+    },
+    "equipo": {
+      "antetitulo": "Quiénes somos",
+      "titulo": "Manos *expertas*.",
+      "miembros": [
+        {
+          "nombre": "Sara Olivera",
+          "cargo": "Fundadora · Esteticista",
+          "frase": "La mejor piel es la que se cuida con constancia.",
+          "foto": {
+            "src": "equipo-1.jpg",
+            "alt": "Retrato de Sara Olivera"
+          }
+        },
+        {
+          "nombre": "Inés Martí",
+          "cargo": "Manicura y pedicura",
+          "frase": "Unas manos cuidadas lo cambian todo.",
+          "foto": {
+            "src": "equipo-2.jpg",
+            "alt": "Retrato de Inés Martí"
+          }
+        },
+        {
+          "nombre": "Clara Puig",
+          "cargo": "Cejas y pestañas",
+          "frase": "Enmarcar la mirada sin que se note el truco.",
+          "foto": {
+            "src": "equipo-3.jpg",
+            "alt": "Retrato de Clara Puig"
+          }
+        }
+      ]
+    },
+    "opiniones": {
+      "antetitulo": "Opiniones",
+      "titulo": "Palabras de nuestras *clientas*.",
+      "notaMedia": 5,
+      "totalResenas": 148,
+      "urlGoogle": "https://www.google.com/maps/search/?api=1&query=39.3972,-0.4128",
+      "resenas": [
+        {
+          "autor": "Elena S.",
+          "nota": 5,
+          "texto": "El mejor facial que me han hecho nunca. Salí con la piel luminosa y súper relajada.",
+          "fecha": "Noviembre 2026"
+        },
+        {
+          "autor": "Paula R.",
+          "nota": 5,
+          "texto": "La manicura rusa me dura casi cuatro semanas perfecta. Sara es una artista.",
+          "fecha": "Octubre 2026"
+        },
+        {
+          "autor": "Marina T.",
+          "nota": 5,
+          "texto": "Un sitio precioso y tranquilo. Te sientes cuidada desde que entras.",
+          "fecha": "Octubre 2026"
+        },
+        {
+          "autor": "Raquel B.",
+          "nota": 5,
+          "texto": "Lifting de pestañas natural, justo lo que quería. Repetiré seguro.",
+          "fecha": "Septiembre 2026"
+        },
+        {
+          "autor": "Silvia L.",
+          "nota": 5,
+          "texto": "Puntuales, profesionales y con productos de calidad. Muy recomendable.",
+          "fecha": "Agosto 2026"
+        },
+        {
+          "autor": "Noelia F.",
+          "nota": 5,
+          "texto": "Me diseñaron las cejas y por fin tengo forma. Explican todo con mucho cariño.",
+          "fecha": "Julio 2026"
+        }
+      ]
+    },
+    "proceso": {
+      "activa": false,
+      "titulo": "Tu primera cita.",
+      "pasos": [
+        {
+          "titulo": "Reserva",
+          "texto": "Elige tratamiento y hora en Booksy."
+        },
+        {
+          "titulo": "Consulta",
+          "texto": "Analizamos tu piel y tus expectativas."
+        }
+      ]
+    },
+    "faq": {
+      "antetitulo": "Dudas",
+      "titulo": "Antes de *venir*.",
+      "preguntas": [
+        {
+          "pregunta": "¿Necesito reservar con antelación?",
+          "respuesta": "Sí, trabajamos solo con cita previa para dedicarte todo el tiempo. Puedes reservar en Booksy las 24 horas."
+        },
+        {
+          "pregunta": "¿Qué pasa si no puedo acudir?",
+          "respuesta": "Avísanos con al menos 24 horas para poder ofrecer el hueco a otra clienta."
+        },
+        {
+          "pregunta": "¿Tenéis tarjetas regalo?",
+          "respuesta": "Sí, de importe libre o de tratamiento concreto. Pídela por WhatsApp o en el estudio."
+        }
+      ]
+    },
+    "ubicacion": {
+      "antetitulo": "Visítanos",
+      "titulo": "En pleno centro de *Albal*.",
+      "indicaciones": [
+        "Zona azul gratuita los sábados",
+        "A cinco minutos de la estación de Albal"
+      ]
+    },
+    "ctaFinal": {
+      "antetitulo": "Reserva",
+      "titulo": "Regálate una *pausa*.",
+      "texto": "Consulta la disponibilidad en tiempo real y reserva tu tratamiento en un minuto."
+    }
+  },
+  "seo": {
+    "title": "Olivera Estudi · Estética y belleza en Albal",
+    "description": "Estudio de belleza en Albal: tratamientos faciales, manicura rusa, lifting de pestañas y cejas. Reserva online tu cita en Olivera Estudi.",
+    "imagenOG": {
+      "src": "og.jpg",
+      "alt": "Olivera Estudi, estudio de belleza en Albal"
+    },
+    "schemaType": "BeautySalon",
+    "rangoPrecio": "€€"
+  }
+}

@@ -1,0 +1,88 @@
+---
+/** Pie oscuro: datos, horario, redes, legales y crédito rgdev.studio. Código de PLANTILLA. */
+import { getSite } from '../lib/config';
+import { telHref, telLegible, waHref } from '../lib/reservas';
+import Img from './ui/Img.astro';
+import Icon from './ui/Icon.astro';
+import HoursTable from './ui/HoursTable.astro';
+import { t } from '../i18n/es';
+
+const { config } = getSite();
+const { negocio, contacto } = config;
+const d = contacto.direccion;
+const redes = Object.entries(contacto.redes).filter(([, v]) => v) as [keyof typeof contacto.redes, string][];
+const nombresRed: Record<string, string> = { instagram: 'Instagram', facebook: 'Facebook', tiktok: 'TikTok', youtube: 'YouTube', linkedin: 'LinkedIn', x: 'X' };
+const year = new Date().getFullYear();
+---
+<footer class="footer">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        {negocio.logoClaro
+          ? <Img img={negocio.logoClaro} widths={[320]} sizes="180px" class="footer__logo" alt={negocio.nombre} />
+          : <p class="footer__name">{negocio.nombre}</p>}
+        <p class="footer__tagline">{negocio.eslogan}</p>
+        {redes.length > 0 && (
+          <ul role="list" class="footer__social" aria-label={t.ui.redes}>
+            {redes.map(([k, url]) => (
+              <li><a href={url} target="_blank" rel="noopener me"><Icon name={k} size={20} label={nombresRed[k]} /></a></li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div class="footer__col">
+        <h2 class="footer__title">{t.ui.contacto}</h2>
+        <address>
+          <a href={contacto.googleMaps} target="_blank" rel="noopener">{d.calle}<br />{d.cp} {d.localidad} ({d.provincia})</a>
+        </address>
+        <a href={telHref(contacto.telefono)}>{telLegible(contacto.telefono)}</a>
+        {contacto.whatsapp && <a href={waHref(contacto.whatsapp)} target="_blank" rel="noopener">WhatsApp</a>}
+        <a href={`mailto:${contacto.email}`}>{contacto.email}</a>
+      </div>
+
+      <div class="footer__col footer__hours">
+        <h2 class="footer__title">{t.ui.horario}</h2>
+        <HoursTable agrupar />
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>© {year} {config.legal.titular}</p>
+      <ul role="list" class="footer__legal">
+        <li><a href="/aviso-legal/">{t.legal.aviso}</a></li>
+        <li><a href="/privacidad/">{t.legal.privacidad}</a></li>
+        <li><a href="/cookies/">{t.legal.cookies}</a></li>
+      </ul>
+      <p class="footer__credit">{t.legal.creditos} <a href="https://instagram.com/rgdev.studio" target="_blank" rel="noopener">rgdev.studio</a></p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer { background: var(--color-dark); color: var(--color-on-dark); padding-block: clamp(4rem, 9vw, 6.5rem) 2rem; font-size: var(--fs-sm);
+    --color-ink: var(--color-on-dark); --color-ink-soft: var(--color-on-dark-soft); --color-line: color-mix(in oklab, var(--color-on-dark) 14%, transparent); --color-primary-text: var(--color-accent); }
+  .footer a { text-decoration: none; transition: color var(--dur-fast) var(--ease); }
+  .footer a:hover { color: #fff; text-decoration: underline; }
+  .footer__top { display: grid; gap: 3rem; }
+  .footer__brand { display: grid; gap: 1.25rem; align-content: start; }
+  .footer :global(.footer__logo) { block-size: 2.6rem; inline-size: auto; max-inline-size: 13rem; object-fit: contain; }
+  .footer__name { font-family: var(--font-display); font-size: 2rem; font-weight: var(--display-weight); letter-spacing: var(--display-tracking); line-height: 1; }
+  .footer__tagline { color: var(--color-on-dark-soft); max-inline-size: 22rem; font-size: var(--fs-md); }
+  .footer__social { display: flex; gap: 0.5rem; }
+  .footer__social a { display: grid; place-items: center; inline-size: 2.75rem; block-size: 2.75rem; border: 1px solid var(--color-line); border-radius: 50%; }
+  :global([data-variante='belleza']) .footer__social a { border-radius: 0; }
+  .footer__col { display: grid; gap: 0.6rem; align-content: start; color: var(--color-on-dark-soft); }
+  .footer__col address { font-style: normal; }
+  .footer__title { font-size: var(--eyebrow-size); letter-spacing: var(--eyebrow-tracking); text-transform: var(--eyebrow-transform); font-weight: 600; color: var(--color-on-dark); margin-bottom: 0.5rem; }
+  .footer__hours :global(.hours > div) { padding-block: 0.45rem; }
+  .footer__bottom { display: grid; gap: 1rem; margin-top: clamp(3rem, 7vw, 5rem); padding-top: 1.75rem; border-top: 1px solid var(--color-line); color: var(--color-on-dark-soft); font-size: var(--fs-xs); }
+  .footer__legal { display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
+  .footer__legal a, .footer__credit a { display: inline-block; padding-block: 0.35rem; }
+  .footer__credit a { color: var(--color-on-dark); font-weight: 600; }
+  @media (min-width: 48rem) {
+    .footer__top { grid-template-columns: 1.4fr 1fr 1fr; }
+    .footer__bottom { grid-template-columns: auto 1fr auto; align-items: center; }
+    .footer__legal { justify-content: center; }
+  }
+</style>

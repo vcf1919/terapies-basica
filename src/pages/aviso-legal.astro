@@ -1,0 +1,39 @@
+---
+/** Aviso legal (LSSI-CE). Texto genérico generado desde el config: REVISAR antes de publicar. */
+import LegalLayout from '../layouts/LegalLayout.astro';
+import { getSite } from '../lib/config';
+const { config } = getSite();
+const { legal, contacto, negocio, sitio } = config;
+const d = contacto.direccion;
+const dom = legal.domicilioFiscal ?? `${d.calle}, ${d.cp} ${d.localidad} (${d.provincia})`;
+const host = new URL(sitio.url).host;
+---
+<LegalLayout title="Aviso legal" description={`Aviso legal de ${host}, sitio web de ${negocio.nombre}.`}>
+  <h2>1. Datos identificativos</h2>
+  <p>En cumplimiento del artículo 10 de la Ley 34/2002, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los datos del titular de este sitio web:</p>
+  <ul>
+    <li><strong>Titular:</strong> {legal.titular}</li>
+    <li><strong>Nombre comercial:</strong> {negocio.nombre}</li>
+    <li><strong>NIF/CIF:</strong> {legal.nif}</li>
+    <li><strong>Domicilio:</strong> {dom}</li>
+    <li><strong>Teléfono:</strong> {contacto.telefono}</li>
+    <li><strong>Email:</strong> <a href={`mailto:${contacto.email}`}>{contacto.email}</a></li>
+    {legal.registro && <li><strong>Datos registrales:</strong> {legal.registro}</li>}
+    {legal.colegio && <li><strong>Colegio profesional:</strong> {legal.colegio}</li>}
+  </ul>
+
+  <h2>2. Objeto</h2>
+  <p>El presente aviso legal regula el uso del sitio web {host} (en adelante, «el sitio web»), cuya finalidad es informar sobre la actividad, servicios, horario y datos de contacto de {negocio.nombre}.</p>
+
+  <h2>3. Condiciones de uso</h2>
+  <p>El acceso al sitio web es gratuito y atribuye la condición de usuario, que se compromete a hacer un uso adecuado de los contenidos conforme a la ley, la buena fe y el orden público. La información publicada (precios, horarios o servicios) tiene carácter orientativo y puede modificarse sin previo aviso.</p>
+
+  <h2>4. Propiedad intelectual e industrial</h2>
+  <p>Los textos, imágenes, logotipos y demás contenidos del sitio web son propiedad de {legal.titular} o de terceros que han autorizado su uso. Queda prohibida su reproducción, distribución o transformación sin autorización expresa.</p>
+
+  <h2>5. Responsabilidad</h2>
+  <p>El titular no se responsabiliza de los daños que pudieran derivarse de interrupciones del servicio, errores en los contenidos o del uso de enlaces a sitios de terceros (por ejemplo, Google Maps, redes sociales o plataformas de reserva), cuyo contenido y políticas no controla.</p>
+
+  <h2>6. Legislación aplicable</h2>
+  <p>Este aviso legal se rige por la legislación española. Para cualquier controversia, las partes se someten a los juzgados y tribunales que correspondan conforme a la normativa vigente.</p>
+</LegalLayout>

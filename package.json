@@ -1,0 +1,46 @@
+{
+  "name": "rgdev-plantilla",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plantilla de webs para negocios locales · rgdev.studio",
+  "scripts": {
+    "dev": "astro dev",
+    "dev:salud": "cross-env SITE_CONFIG=examples/salud.json astro dev",
+    "dev:belleza": "cross-env SITE_CONFIG=examples/belleza.json astro dev",
+    "dev:comercio": "cross-env SITE_CONFIG=examples/comercio.json astro dev",
+    "build": "astro build",
+    "build:salud": "cross-env SITE_CONFIG=examples/salud.json astro build",
+    "build:belleza": "cross-env SITE_CONFIG=examples/belleza.json astro build",
+    "build:comercio": "cross-env SITE_CONFIG=examples/comercio.json astro build",
+    "build:ejemplos": "npm run build:salud && npm run build:belleza && npm run build:comercio",
+    "preview": "astro preview",
+    "check": "tsx scripts/check-config.ts && astro check",
+    "check:todos": "tsx scripts/check-config.ts --all && astro check",
+    "placeholders": "node scripts/generar-placeholders.mjs"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.5",
+    "@fontsource-variable/bodoni-moda": "^5.3.0",
+    "@fontsource-variable/familjen-grotesk": "^5.3.0",
+    "@fontsource-variable/hanken-grotesk": "^5.3.0",
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource-variable/literata": "^5.3.0",
+    "@fontsource-variable/newsreader": "^5.3.0",
+    "@fontsource-variable/onest": "^5.3.1",
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
+    "astro": "^7.4.12",
+    "maplibre-gl": "^6.18.0",
+    "sharp": "^0.35.5",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "cross-env": "^10.1.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  }
+}

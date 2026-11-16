@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { t } from '../i18n/es';
+---
+<BaseLayout title={t.ui.noEncontrada} noindex>
+  <section class="section container nf">
+    <p class="eyebrow">404</p>
+    <h1 class="h1">{t.ui.noEncontrada}</h1>
+    <p class="lead">{t.ui.noEncontradaTexto}</p>
+    <p><a class="btn" href="/">{t.ui.volverInicio}</a></p>
+  </section>
+</BaseLayout>
+<style>.nf { display: grid; gap: 1.5rem; justify-items: start; }</style>

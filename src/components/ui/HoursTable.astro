@@ -1,0 +1,22 @@
+---
+/** Tabla de horario; el script resalta el día de hoy. Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { filasHorario } from '../../lib/horario';
+import { t } from '../../i18n/es';
+interface Props { agrupar?: boolean; class?: string }
+const { agrupar = false, class: cls } = Astro.props;
+const { config } = getSite();
+const filas = filasHorario(config.horario, agrupar);
+---
+<dl class:list={['hours', cls]} data-hours-today>
+  {filas.map((f) => (
+    <div data-day={f.keys.map((k) => t.dias.indexOf(k)).join(' ')}>
+      <dt data-today-label={t.estado.hoy}>{f.etiqueta}</dt>
+      <dd class="tabular">{f.texto}</dd>
+    </div>
+  ))}
+</dl>
+{config.horario.nota && <p class="hours-note muted">{config.horario.nota}</p>}
+<style>
+  .hours-note { font-size: var(--fs-xs); margin-top: 0.9rem; }
+</style>

@@ -1,0 +1,353 @@
+{
+  "sitio": {
+    "url": "https://clinicavora.example"
+  },
+  "negocio": {
+    "nombre": "Clínica Dental Vora",
+    "sector": "Clínica dental",
+    "eslogan": "Odontología tranquila, cerca de casa.",
+    "descripcionCorta": "Clínica dental familiar en Catarroja: odontología general, ortodoncia invisible, implantes y estética dental con diagnóstico digital.",
+    "anioApertura": 2011,
+    "logo": {
+      "src": "logo.svg",
+      "alt": "Clínica Dental Vora"
+    },
+    "logoClaro": {
+      "src": "logo-claro.svg",
+      "alt": "Clínica Dental Vora"
+    }
+  },
+  "legal": {
+    "titular": "Vora Odontología, S.L. (ficticio)",
+    "nif": "B00000000",
+    "registro": "Datos registrales de ejemplo",
+    "colegio": "Ilustre Colegio de Odontólogos y Estomatólogos de Valencia"
+  },
+  "contacto": {
+    "telefono": "+34 961 000 101",
+    "whatsapp": "+34 600 000 101",
+    "email": "hola@clinicavora.example",
+    "direccion": {
+      "calle": "Carrer de l'Exemple, 12",
+      "cp": "46470",
+      "localidad": "Catarroja",
+      "provincia": "Valencia"
+    },
+    "coordenadas": {
+      "lat": 39.4029,
+      "lng": -0.4036
+    },
+    "googleMaps": "https://www.google.com/maps/search/?api=1&query=39.4029,-0.4036",
+    "redes": {
+      "instagram": "https://instagram.com/example",
+      "facebook": "https://facebook.com/example"
+    }
+  },
+  "horario": {
+    "lunes": [
+      [
+        "09:30",
+        "14:00"
+      ],
+      [
+        "16:00",
+        "20:30"
+      ]
+    ],
+    "martes": [
+      [
+        "09:30",
+        "14:00"
+      ],
+      [
+        "16:00",
+        "20:30"
+      ]
+    ],
+    "miercoles": [
+      [
+        "09:30",
+        "14:00"
+      ],
+      [
+        "16:00",
+        "20:30"
+      ]
+    ],
+    "jueves": [
+      [
+        "09:30",
+        "14:00"
+      ],
+      [
+        "16:00",
+        "20:30"
+      ]
+    ],
+    "viernes": [
+      [
+        "09:30",
+        "15:00"
+      ]
+    ],
+    "sabado": "cerrado",
+    "domingo": "cerrado",
+    "nota": "Urgencias de pacientes: llamar al teléfono de la clínica.",
+    "cierres": [
+      {
+        "fecha": "2026-12-25",
+        "motivo": "Navidad"
+      }
+    ]
+  },
+  "reservas": {
+    "tipo": "whatsapp",
+    "mensaje": "Hola, me gustaría pedir cita en Clínica Dental Vora.",
+    "textoBoton": "Pedir cita"
+  },
+  "tema": {
+    "variante": "salud"
+  },
+  "secciones": {
+    "hero": {
+      "titular": "Tu dentista de confianza, *sin prisas* y sin sorpresas.",
+      "subtitulo": "Primera visita con diagnóstico digital y presupuesto cerrado. Atención para toda la familia en el centro de Catarroja.",
+      "ctaSecundario": {
+        "texto": "Ver tratamientos",
+        "href": "#servicios"
+      },
+      "fondo": {
+        "tipo": "imagen",
+        "imagen": {
+          "src": "hero.jpg",
+          "alt": "Gabinete luminoso de la clínica con sillón dental"
+        }
+      }
+    },
+    "sobre": {
+      "antetitulo": "La clínica",
+      "titulo": "Quince años cuidando *sonrisas* en Catarroja.",
+      "parrafos": [
+        "Somos un equipo pequeño y estable. Te atiende siempre el mismo odontólogo, que conoce tu historia y te explica cada paso antes de empezar.",
+        "Trabajamos con escáner intraoral y radiografía digital de baja dosis para que el diagnóstico sea más preciso y la visita más cómoda."
+      ],
+      "imagen": {
+        "src": "sobre.jpg",
+        "alt": "Recepción de la clínica con luz natural"
+      },
+      "cifras": [
+        {
+          "valor": "anios",
+          "etiqueta": "años abiertos en el barrio"
+        },
+        {
+          "valor": 4800,
+          "prefijo": "+",
+          "etiqueta": "pacientes atendidos"
+        },
+        {
+          "valor": 4.9,
+          "etiqueta": "nota media en Google"
+        },
+        {
+          "valor": 0,
+          "sufijo": " €",
+          "etiqueta": "primera visita y revisión"
+        }
+      ]
+    },
+    "servicios": {
+      "antetitulo": "Tratamientos",
+      "titulo": "Todo lo que tu boca necesita, en un mismo sitio.",
+      "intro": "Precios orientativos. Siempre recibirás un presupuesto cerrado antes de empezar.",
+      "items": [
+        {
+          "nombre": "Revisión y limpieza",
+          "descripcion": "Exploración completa, radiografía digital si hace falta y limpieza con ultrasonidos.",
+          "precioDesde": 45,
+          "duracion": 45
+        },
+        {
+          "nombre": "Ortodoncia invisible",
+          "descripcion": "Alineadores transparentes con planificación 3D y seguimiento mensual.",
+          "precioDesde": 2400,
+          "destacado": true
+        },
+        {
+          "nombre": "Implantes dentales",
+          "descripcion": "Implantes de titanio con corona sobre implante y garantía por escrito.",
+          "precioDesde": 890
+        },
+        {
+          "nombre": "Blanqueamiento",
+          "descripcion": "Blanqueamiento combinado en clínica y en casa, con férulas a medida.",
+          "precioDesde": 290,
+          "duracion": 60
+        },
+        {
+          "nombre": "Odontopediatría",
+          "descripcion": "Primeras visitas sin miedo, selladores y control del crecimiento.",
+          "precioDesde": 35,
+          "duracion": 30
+        },
+        {
+          "nombre": "Periodoncia",
+          "descripcion": "Tratamiento de encías sangrantes y mantenimiento periodontal.",
+          "precioDesde": 70,
+          "duracion": 60
+        }
+      ],
+      "nota": "Financiación hasta 24 meses sin intereses."
+    },
+    "proceso": {
+      "antetitulo": "Primera visita",
+      "titulo": "Así es tu *primera visita*.",
+      "intro": "Unos 40 minutos, sin compromiso.",
+      "pasos": [
+        {
+          "titulo": "Nos conocemos",
+          "texto": "Te escuchamos y revisamos tu historial y tus preocupaciones."
+        },
+        {
+          "titulo": "Diagnóstico digital",
+          "texto": "Escáner intraoral y radiografía de baja dosis, al momento."
+        },
+        {
+          "titulo": "Plan claro",
+          "texto": "Te enseñamos las opciones en pantalla con un presupuesto cerrado."
+        },
+        {
+          "titulo": "Empezamos",
+          "texto": "Elegimos juntos la fecha y empezamos el tratamiento cuando tú decidas."
+        }
+      ]
+    },
+    "equipo": {
+      "antetitulo": "Equipo",
+      "titulo": "Las personas que te van a atender.",
+      "miembros": [
+        {
+          "nombre": "Dra. Laura Ferrer",
+          "cargo": "Odontóloga · Directora",
+          "colegiado": "Col. 46-0000",
+          "frase": "Prefiero explicar dos veces que dejar una duda.",
+          "foto": {
+            "src": "equipo-1.jpg",
+            "alt": "Retrato de la doctora Laura Ferrer"
+          }
+        },
+        {
+          "nombre": "Dr. Pau Climent",
+          "cargo": "Implantología",
+          "colegiado": "Col. 46-0001",
+          "frase": "Un buen implante empieza por un buen diagnóstico.",
+          "foto": {
+            "src": "equipo-2.jpg",
+            "alt": "Retrato del doctor Pau Climent"
+          }
+        },
+        {
+          "nombre": "Marta Soler",
+          "cargo": "Higienista dental",
+          "frase": "Las revisiones a tiempo evitan la mayoría de problemas.",
+          "foto": {
+            "src": "equipo-3.jpg",
+            "alt": "Retrato de la higienista Marta Soler"
+          }
+        }
+      ]
+    },
+    "opiniones": {
+      "antetitulo": "Opiniones",
+      "titulo": "Lo que dicen nuestros *pacientes*.",
+      "notaMedia": 4.9,
+      "totalResenas": 212,
+      "urlGoogle": "https://www.google.com/maps/search/?api=1&query=39.4029,-0.4036",
+      "resenas": [
+        {
+          "autor": "Carmen G.",
+          "nota": 5,
+          "texto": "Tenía pánico al dentista y me han tratado con una paciencia increíble. Me explicaron todo antes de empezar.",
+          "fecha": "Octubre 2026"
+        },
+        {
+          "autor": "Jordi M.",
+          "nota": 5,
+          "texto": "Me puse un implante y todo fue tal cual me dijeron, sin costes extra. Muy recomendables.",
+          "fecha": "Septiembre 2026"
+        },
+        {
+          "autor": "Lucía P.",
+          "nota": 5,
+          "texto": "Llevo a mis dos hijos y salen contentos. La higienista es un encanto.",
+          "fecha": "Septiembre 2026"
+        },
+        {
+          "autor": "Andrés R.",
+          "nota": 4,
+          "texto": "Buena atención y puntualidad. A veces cuesta encontrar hueco por la tarde, pero merece la pena.",
+          "fecha": "Agosto 2026"
+        },
+        {
+          "autor": "Neus V.",
+          "nota": 5,
+          "texto": "Hice la ortodoncia invisible y el seguimiento ha sido impecable. Clínica muy limpia y moderna.",
+          "fecha": "Julio 2026"
+        },
+        {
+          "autor": "Miguel A.",
+          "nota": 5,
+          "texto": "Primera visita gratis de verdad y con un presupuesto clarísimo. Así da gusto.",
+          "fecha": "Junio 2026"
+        }
+      ]
+    },
+    "faq": {
+      "antetitulo": "Preguntas frecuentes",
+      "titulo": "Resolvemos tus dudas.",
+      "preguntas": [
+        {
+          "pregunta": "¿La primera visita tiene coste?",
+          "respuesta": "No. La primera visita con exploración y presupuesto es gratuita y sin compromiso."
+        },
+        {
+          "pregunta": "¿Trabajáis con seguros dentales?",
+          "respuesta": "Trabajamos con las principales aseguradoras. Pregúntanos por la tuya al pedir cita."
+        },
+        {
+          "pregunta": "¿Puedo financiar el tratamiento?",
+          "respuesta": "Sí, ofrecemos financiación hasta 24 meses sin intereses en tratamientos a partir de 600 €."
+        },
+        {
+          "pregunta": "¿Atendéis urgencias?",
+          "respuesta": "Si eres paciente y tienes dolor, llámanos y te buscamos hueco el mismo día siempre que sea posible."
+        }
+      ]
+    },
+    "ubicacion": {
+      "antetitulo": "Dónde estamos",
+      "titulo": "En el centro de Catarroja.",
+      "texto": "A dos minutos a pie de la plaza del Ayuntamiento.",
+      "indicaciones": [
+        "Parking público gratuito a 150 m",
+        "Metrovalencia: estación de Catarroja (L1)",
+        "Acceso adaptado sin escalones"
+      ]
+    },
+    "ctaFinal": {
+      "antetitulo": "Pide tu cita",
+      "titulo": "¿Hablamos de tu *sonrisa*?",
+      "texto": "Escríbenos por WhatsApp y te respondemos en el día con la primera cita disponible."
+    }
+  },
+  "seo": {
+    "title": "Clínica Dental Vora · Dentista en Catarroja",
+    "description": "Clínica dental en Catarroja: revisiones, ortodoncia invisible, implantes y blanqueamiento. Primera visita gratuita y presupuesto cerrado.",
+    "imagenOG": {
+      "src": "og.jpg",
+      "alt": "Clínica Dental Vora en Catarroja"
+    },
+    "schemaType": "Dentist",
+    "rangoPrecio": "€€"
+  }
+}

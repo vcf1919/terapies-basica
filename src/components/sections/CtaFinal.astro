@@ -1,0 +1,72 @@
+---
+/** CTA FINAL con horario completo. Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import { enfasis } from '../../lib/text';
+import { telHref, telLegible, waHref } from '../../lib/reservas';
+import ReserveButton from '../ui/ReserveButton.astro';
+import HoursTable from '../ui/HoursTable.astro';
+import OpenStatus from '../ui/OpenStatus.astro';
+import Icon from '../ui/Icon.astro';
+import { t } from '../../i18n/es';
+const { config } = getSite();
+const s = config.secciones.ctaFinal!;
+const { contacto } = config;
+---
+<section class="section cta-final" id={anclaDe(config, 'ctaFinal')} aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta-final__box">
+      <div class="cta-final__copy">
+        {s.antetitulo && <p class="eyebrow" data-reveal>{s.antetitulo}</p>}
+        <h2 class="h2" id="cta-title" data-reveal style="--i:1" set:html={enfasis(s.titulo)} />
+        {s.texto && <p class="lead" data-reveal style="--i:2">{s.texto}</p>}
+        <div class="cta-final__actions" data-reveal style="--i:3">
+          <ReserveButton variant="light" />
+          {config.reservas.tipo !== 'telefono' && (
+            <a class="btn btn--ghost" href={telHref(contacto.telefono)}><Icon name="phone" />{telLegible(contacto.telefono)}</a>
+          )}
+          {contacto.whatsapp && config.reservas.tipo !== 'whatsapp' && (
+            <a class="btn btn--ghost" href={waHref(contacto.whatsapp)} target="_blank" rel="noopener"><Icon name="whatsapp" />{t.ui.whatsapp}</a>
+          )}
+        </div>
+      </div>
+      {s.mostrarHorario && (
+        <div class="cta-final__hours" data-reveal style="--i:2">
+          <div class="cta-final__hours-head">
+            <h3 class="cta-final__hours-title">{t.ui.horario}</h3>
+            <OpenStatus detail={false} />
+          </div>
+          <HoursTable />
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-final__box {
+    display: grid; gap: 3rem;
+    padding: clamp(2rem, 6vw, 5rem);
+    background: var(--color-primary); color: var(--color-on-primary);
+    border-radius: var(--radius-lg);
+    --color-ink: var(--color-on-primary);
+    --color-ink-soft: color-mix(in oklab, var(--color-on-primary) 78%, transparent);
+    --color-line: color-mix(in oklab, var(--color-on-primary) 22%, transparent);
+    --color-primary-text: var(--color-on-primary);
+    --em-color: var(--color-on-primary);
+    --focus: 0 0 0 2px var(--color-primary), 0 0 0 4px var(--color-on-primary);
+  }
+  .cta-final__copy { display: grid; gap: 1.4rem; align-content: start; }
+  .cta-final__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .cta-final__actions :global(.btn--light) { --btn-bg: var(--color-on-primary); --btn-fg: var(--color-primary); }
+  .cta-final__actions .btn--ghost { --btn-fg: var(--color-on-primary); --btn-bd: var(--color-line); }
+  .cta-final__actions .btn--ghost:hover { --btn-bg: var(--color-on-primary); --btn-fg: var(--color-primary); }
+  .cta-final__hours { padding: 1.5rem; background: color-mix(in oklab, var(--color-on-primary) 8%, transparent); border-radius: var(--radius-md); align-self: start; }
+  .cta-final__hours-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+  .cta-final__hours-title { font-family: var(--font-display); font-size: var(--fs-xl); font-weight: var(--display-weight); }
+  .cta-final__hours :global(.status__dot) { box-shadow: 0 0 0 2px var(--color-on-primary); }
+  @media (min-width: 64rem) { .cta-final__box { grid-template-columns: 1.2fr 1fr; gap: 5rem; } }
+  :global([data-variante='belleza']) .cta-final__box { background: var(--color-dark); --color-on-primary: var(--color-on-dark); color: var(--color-on-dark); }
+  :global([data-variante='belleza']) .cta-final__actions :global(.btn--light) { --btn-bg: var(--color-on-dark); --btn-fg: var(--color-dark); }
+  :global([data-variante='belleza']) .cta-final__actions .btn--ghost:hover { --btn-fg: var(--color-dark); }
+</style>

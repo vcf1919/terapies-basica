@@ -1,0 +1,44 @@
+---
+/** FAQ · acordeón accesible con <details>. El JSON-LD FAQPage se genera en index.astro. */
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import SectionHead from '../ui/SectionHead.astro';
+import Icon from '../ui/Icon.astro';
+const { config } = getSite();
+const s = config.secciones.faq!;
+---
+<section class="section faq" id={anclaDe(config, 'faq')} aria-labelledby="faq-title">
+  <div class="container faq__grid">
+    <SectionHead antetitulo={s.antetitulo} titulo={s.titulo} id="faq-title" />
+    <div class="faq__list">
+      {s.preguntas.map((q, i) => (
+        <details class="qa" name="faq" data-reveal style={`--i:${i % 4}`}>
+          <summary>
+            <span>{q.pregunta}</span>
+            <span class="qa__icon" aria-hidden="true"><Icon name="plus" size={18} /></span>
+          </summary>
+          <div class="qa__a"><p>{q.respuesta}</p></div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__grid { display: grid; gap: 1rem; }
+  @media (min-width: 64rem) { .faq__grid { grid-template-columns: 0.8fr 1fr; gap: 5rem; align-items: start; } .faq__grid :global(.section-head) { position: sticky; top: calc(var(--header-h) + 2rem); } }
+  .faq__list { border-top: var(--rule); }
+  .qa { border-bottom: var(--rule); interpolate-size: allow-keywords; }
+  .qa summary { display: flex; justify-content: space-between; align-items: center; gap: 1.5rem; padding-block: 1.35rem; cursor: pointer; list-style: none; font-weight: 600; font-size: var(--fs-md); line-height: 1.4; border-radius: 2px; }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary:hover { color: var(--color-primary-text); }
+  .qa__icon { display: grid; place-items: center; flex: none; inline-size: 2.25rem; block-size: 2.25rem; border: 1px solid var(--color-line); border-radius: 50%; transition: transform var(--dur) var(--ease), background-color var(--dur) var(--ease); }
+  .qa[open] .qa__icon { transform: rotate(45deg); background: var(--color-primary); border-color: var(--color-primary); color: var(--color-on-primary); }
+  .qa__a { padding-block-end: 1.5rem; color: var(--color-ink-soft); max-inline-size: 60ch; }
+  :global([data-variante='belleza']) .qa summary { font-family: var(--font-display); font-weight: 400; font-size: 1.35rem; }
+  :global([data-variante='belleza']) .qa__icon { border-radius: 0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .qa::details-content { block-size: 0; overflow: clip; transition: block-size var(--dur) var(--ease), content-visibility var(--dur) allow-discrete; }
+    .qa[open]::details-content { block-size: auto; }
+  }
+</style>

@@ -1,0 +1,21 @@
+---
+/** Botón "Reservar cita": todos salen de config.reservas. Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { reservaCta } from '../../lib/reservas';
+import Icon from './Icon.astro';
+interface Props { variant?: 'primary' | 'ghost' | 'light'; size?: 'sm' | 'md'; class?: string; label?: string }
+const { variant = 'primary', size = 'md', class: cls, label } = Astro.props;
+const cta = reservaCta(getSite().config);
+const icon = cta.tipo === 'whatsapp' ? 'whatsapp' : cta.tipo === 'telefono' ? 'phone' : 'arrow';
+---
+<a
+  class:list={['btn', variant !== 'primary' && `btn--${variant}`, size === 'sm' && 'btn--sm', cls]}
+  href={cta.href}
+  {...(cta.externo ? { target: '_blank', rel: 'noopener' } : {})}
+  data-cta="reservar"
+>
+  {icon !== 'arrow' && <Icon name={icon} />}
+  <span>{label ?? cta.texto}</span>
+  {icon === 'arrow' && <Icon name="arrow" class="arrow" />}
+  {cta.externo && <span class="visually-hidden"> (se abre en una ventana nueva)</span>}
+</a>

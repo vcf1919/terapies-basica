@@ -1,0 +1,47 @@
+---
+/** EQUIPO · foto, nombre, cargo y frase. Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import SectionHead from '../ui/SectionHead.astro';
+import Img from '../ui/Img.astro';
+const { config } = getSite();
+const s = config.secciones.equipo!;
+---
+<section class="section equipo" id={anclaDe(config, 'equipo')} aria-labelledby="equipo-title">
+  <div class="container">
+    <SectionHead antetitulo={s.antetitulo} titulo={s.titulo} intro={s.intro} id="equipo-title" split />
+    <ul role="list" class="equipo__grid" style={`--n:${Math.min(s.miembros.length, 4)}`}>
+      {s.miembros.map((m, i) => (
+        <li class="persona" data-reveal style={`--i:${i % 4}`}>
+          <figure>
+            <div class="persona__foto media"><Img img={m.foto} sizes="(min-width: 64rem) 25vw, (min-width: 40rem) 45vw, 90vw" widths={[400, 640, 900]} /></div>
+            <figcaption class="persona__info">
+              <h3 class="h3">{m.nombre}</h3>
+              <p class="persona__cargo">{m.cargo}{m.colegiado && <span> · {m.colegiado}</span>}</p>
+              {m.frase && <blockquote class="persona__frase"><p>{m.frase}</p></blockquote>}
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .equipo__grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem 0.75rem; }
+  @media (max-width: 39.99rem) { .persona__frase { display: none; } .persona .h3 { font-size: 1.05rem; } .persona__cargo { font-size: var(--fs-xs); } }
+  .persona figure { display: grid; gap: 1.1rem; }
+  .persona__foto { aspect-ratio: 4 / 5; }
+  .persona__foto :global(img) { transition: transform 0.9s var(--ease), filter 0.9s var(--ease); }
+  .persona:hover .persona__foto :global(img) { transform: scale(1.03); }
+  .persona__info { display: grid; gap: 0.3rem; }
+  .persona__cargo { font-size: var(--fs-sm); color: var(--color-primary-text); font-weight: 500; }
+  .persona__cargo span { color: var(--color-ink-soft); font-weight: 400; }
+  .persona__frase { margin-top: 0.6rem; padding-top: 0.8rem; border-top: var(--rule); color: var(--color-ink-soft); font-size: var(--fs-sm); }
+  @media (min-width: 40rem) { .equipo__grid { gap: 2.5rem 1.25rem; } }
+  @media (min-width: 64rem) { .equipo__grid { grid-template-columns: repeat(var(--n), 1fr); } }
+  :global([data-variante='belleza']) .persona__foto :global(img) { filter: grayscale(1) contrast(1.05); }
+  :global([data-variante='belleza']) .persona:hover .persona__foto :global(img) { filter: grayscale(0) var(--img-filter); }
+  :global([data-variante='belleza']) .persona__frase { font-family: var(--font-display); font-style: italic; font-size: 1.15rem; border: 0; padding: 0; }
+  @media (min-width: 64rem) { :global([data-variante='belleza']) .persona:nth-child(even) { margin-top: 4rem; } }
+</style>

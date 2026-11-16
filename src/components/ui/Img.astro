@@ -1,0 +1,39 @@
+---
+/** Imagen del cliente optimizada (WebP, srcset, lazy). Código de PLANTILLA. */
+import { Image } from 'astro:assets';
+import { resolveImage } from '../../lib/images';
+import type { Imagen } from '../../lib/schema';
+
+interface Props {
+  img: Imagen;
+  widths?: number[];
+  sizes?: string;
+  priority?: boolean;
+  class?: string;
+  alt?: string;
+  ratio?: number; // recorte opcional ancho/alto
+}
+const { img, widths = [480, 768, 1080, 1440], sizes = '100vw', priority = false, class: cls, alt, ratio } = Astro.props;
+const meta = await resolveImage(img.src);
+const isSvg = meta.format === 'svg';
+const maxW = Math.min(meta.width, Math.max(...widths));
+const usable = widths.filter((w) => w <= meta.width);
+---
+{isSvg ? (
+  <img src={meta.src} alt={alt ?? img.alt} width={meta.width} height={meta.height} class={cls} loading={priority ? 'eager' : 'lazy'} decoding="async" />
+) : (
+  <Image
+    src={meta}
+    alt={alt ?? img.alt}
+    widths={usable.length ? usable : [meta.width]}
+    sizes={sizes}
+    width={maxW}
+    height={ratio ? Math.round(maxW / ratio) : Math.round((maxW * meta.height) / meta.width)}
+    format="webp"
+    quality={72}
+    loading={priority ? 'eager' : 'lazy'}
+    fetchpriority={priority ? 'high' : 'auto'}
+    decoding={priority ? 'sync' : 'async'}
+    class={cls}
+  />
+)}

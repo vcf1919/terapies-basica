@@ -1,0 +1,117 @@
+---
+/** UBICACIÓN · mapa 3D (MapLibre + OpenFreeMap) cargado al entrar en pantalla. Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import { resolveTheme } from '../../themes';
+import { resolveImage } from '../../lib/images';
+import { getImage } from 'astro:assets';
+import { comoLlegarHref, telHref, telLegible } from '../../lib/reservas';
+import SectionHead from '../ui/SectionHead.astro';
+import Icon from '../ui/Icon.astro';
+import OpenStatus from '../ui/OpenStatus.astro';
+import { t, fmt } from '../../i18n/es';
+
+const { config } = getSite();
+const s = config.secciones.ubicacion!;
+const theme = resolveTheme(config);
+const { contacto } = config;
+const d = contacto.direccion;
+const logoMeta = await resolveImage(config.negocio.logo.src);
+const logo = logoMeta.format === 'svg' ? logoMeta.src : (await getImage({ src: logoMeta, width: 160, format: 'webp' })).src;
+// tono claro del primario para las alturas bajas
+const mix = (hex: string, w: number) => {
+  const n = parseInt(hex.slice(1).padEnd(6, hex.slice(-1)), 16);
+  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => Math.round(v + (255 - v) * w));
+  return `#${c.map((v) => v.toString(16).padStart(2, '0')).join('')}`;
+};
+const primary = theme.colores.primario.length === 4 ? '#' + [...theme.colores.primario.slice(1)].map((c) => c + c).join('') : theme.colores.primario;
+---
+<section class="section ubicacion" id={anclaDe(config, 'ubicacion')} aria-labelledby="ubicacion-title">
+  <div class="container">
+    <SectionHead antetitulo={s.antetitulo} titulo={s.titulo} intro={s.texto} id="ubicacion-title" split />
+    <div class="ubicacion__grid">
+      <div class="map-wrap media" data-map-wrap>
+        <div
+          class="map"
+          data-map
+          data-lat={contacto.coordenadas.lat}
+          data-lng={contacto.coordenadas.lng}
+          data-zoom={s.mapa.zoom}
+          data-pitch={s.mapa.inclinacion}
+          data-bearing={s.mapa.rotacion}
+          data-color={primary}
+          data-color-light={mix(primary, 0.78)}
+          data-logo={logo}
+          data-name={config.negocio.nombre}
+          role="region"
+          aria-label={fmt(t.ui.mapaAria, { n: config.negocio.nombre })}
+        ></div>
+        <p class="map-wrap__loading" aria-hidden="true">{t.ui.mapaCargando}</p>
+      </div>
+
+      <div class="ubicacion__card">
+        <OpenStatus />
+        <address class="ubicacion__addr">
+          <span class="ubicacion__street">{d.calle}</span>
+          <span>{d.cp} {d.localidad} · {d.provincia}</span>
+        </address>
+        {s.indicaciones.length > 0 && (
+          <ul role="list" class="ubicacion__tips">
+            {s.indicaciones.map((i) => <li>{i}</li>)}
+          </ul>
+        )}
+        <div class="ubicacion__actions">
+          <a class="btn" href={comoLlegarHref(config)} target="_blank" rel="noopener"><Icon name="pin" />{t.ui.comoLlegar}</a>
+          <a class="btn btn--ghost" href={telHref(contacto.telefono)}><Icon name="phone" />{telLegible(contacto.telefono)}</a>
+        </div>
+        <a class="link-arrow" href={contacto.googleMaps} target="_blank" rel="noopener">{t.ui.abrirMaps}<Icon name="arrow-up-right" /></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ubicacion__grid { display: grid; gap: 1.5rem; }
+  .map-wrap { aspect-ratio: 4 / 5; max-block-size: 70svh; inline-size: 100%; background: var(--color-surface-2); border: 1px solid var(--color-line); }
+  .map { position: absolute; inset: 0; }
+  .map-wrap__loading { position: absolute; inset: 0; display: grid; place-items: center; font-size: var(--fs-sm); color: var(--color-ink-soft); pointer-events: none; transition: opacity var(--dur) var(--ease); }
+  .map-wrap[data-loaded] .map-wrap__loading { opacity: 0; }
+  .ubicacion__card { display: grid; gap: 1.25rem; align-content: start; padding: clamp(1.5rem, 4vw, 2.5rem); background: var(--card-bg); border: var(--card-border); border-radius: var(--radius-md); }
+  :global([data-variante='belleza']) .ubicacion__card { border-top: 1px solid var(--color-ink); padding-inline: 0; }
+  .ubicacion__addr { font-style: normal; display: grid; gap: 0.25rem; color: var(--color-ink-soft); }
+  .ubicacion__street { font-family: var(--font-display); font-size: var(--fs-xl); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); color: var(--color-ink); line-height: 1.2; }
+  .ubicacion__tips { display: grid; gap: 0.5rem; font-size: var(--fs-sm); color: var(--color-ink-soft); }
+  .ubicacion__tips li { padding-inline-start: 1.1rem; position: relative; }
+  .ubicacion__tips li::before { content: ''; position: absolute; left: 0; top: 0.65em; inline-size: 0.4rem; block-size: 1px; background: var(--color-primary); }
+  .ubicacion__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  @media (min-width: 64rem) {
+    .ubicacion__grid { grid-template-columns: 1.6fr 1fr; align-items: stretch; }
+    .map-wrap { aspect-ratio: auto; min-block-size: 32rem; max-block-size: none; }
+  }
+
+  :global(.map-pin) { display: grid; justify-items: center; filter: drop-shadow(0 10px 14px rgb(0 0 0 / .25)); }
+  :global(.map-pin__badge) { display: grid; place-items: center; inline-size: 3.6rem; block-size: 3.6rem; border-radius: 50%; background: #fff; border: 3px solid var(--color-primary); padding: 0.55rem; }
+  :global(.map-pin__badge img) { inline-size: 100%; block-size: 100%; object-fit: contain; }
+  :global(.map-pin__tip) { inline-size: 3px; block-size: 14px; background: var(--color-primary); border-radius: 0 0 3px 3px; }
+  :global(.maplibregl-ctrl-group) { border-radius: var(--radius-sm) !important; }
+</style>
+
+<script>
+  const el = document.querySelector<HTMLElement>('[data-map]');
+  if (el) {
+    const io = new IntersectionObserver(
+      async ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        try {
+          const { initMap } = await import('../../scripts/map');
+          initMap(el);
+        } catch (err) {
+          console.warn('[mapa] no se pudo cargar', err);
+        }
+      },
+      { rootMargin: '300px 0px' },
+    );
+    io.observe(el);
+  }
+</script>

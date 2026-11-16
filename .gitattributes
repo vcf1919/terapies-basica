@@ -1,0 +1,18 @@
+# Normaliza finales de línea
+* text=auto eol=lf
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.webp binary
+*.avif binary
+*.mp4 binary
+*.webm binary
+*.woff2 binary
+
+# ─── Archivos del CLIENTE ───────────────────────────────────────────────
+# Al traer mejoras de la plantilla con `git merge plantilla/main`, si hay
+# conflicto en estos archivos se conserva SIEMPRE la versión del cliente.
+# Requiere (una vez por repo de cliente):  git config merge.ours.driver true
+src/content/site.config.json merge=ours
+src/assets/cliente/** merge=ours
+public/cliente/** merge=ours

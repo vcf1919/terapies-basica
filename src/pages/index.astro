@@ -1,0 +1,29 @@
+---
+/** Página de inicio: pinta las secciones activas en el orden del config o de la variante. */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSite } from '../lib/config';
+import { resolveTheme } from '../themes';
+import { faqLd } from '../lib/seo';
+import Hero from '../components/sections/Hero.astro';
+import Sobre from '../components/sections/Sobre.astro';
+import Servicios from '../components/sections/Servicios.astro';
+import Equipo from '../components/sections/Equipo.astro';
+import Opiniones from '../components/sections/Opiniones.astro';
+import Galeria from '../components/sections/Galeria.astro';
+import Proceso from '../components/sections/Proceso.astro';
+import Faq from '../components/sections/Faq.astro';
+import Ubicacion from '../components/sections/Ubicacion.astro';
+import CtaFinal from '../components/sections/CtaFinal.astro';
+
+const { config } = getSite();
+const { orden } = resolveTheme(config);
+const componentes = { hero: Hero, sobre: Sobre, servicios: Servicios, equipo: Equipo, opiniones: Opiniones, galeria: Galeria, proceso: Proceso, faq: Faq, ubicacion: Ubicacion, ctaFinal: CtaFinal };
+const faq = config.secciones.faq;
+const extraLd = faq && orden.includes('faq') ? [faqLd(faq.preguntas)] : [];
+---
+<BaseLayout extraLd={extraLd}>
+  {orden.map((key) => {
+    const C = componentes[key];
+    return <C />;
+  })}
+</BaseLayout>

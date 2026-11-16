@@ -1,0 +1,47 @@
+---
+/** Barra fija inferior en móvil: reservar + llamar. Aparece al pasar el hero. Código de PLANTILLA. */
+import { getSite } from '../lib/config';
+import { telHref } from '../lib/reservas';
+import ReserveButton from './ui/ReserveButton.astro';
+import Icon from './ui/Icon.astro';
+import { t } from '../i18n/es';
+const { config } = getSite();
+---
+<div class="mobile-bar" data-mobile-bar>
+  <ReserveButton class="mobile-bar__cta" />
+  {config.reservas.tipo !== 'telefono' && (
+    <a class="btn btn--ghost mobile-bar__tel" href={telHref(config.contacto.telefono)} aria-label={t.ui.llamar}><Icon name="phone" /></a>
+  )}
+</div>
+<style>
+  .mobile-bar {
+    position: fixed; inset: auto 0 0; z-index: 40;
+    display: flex; gap: 0.5rem;
+    padding: 0.6rem var(--gutter) calc(0.6rem + env(safe-area-inset-bottom));
+    background: color-mix(in oklab, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--color-line);
+    transform: translateY(110%); transition: transform var(--dur) var(--ease);
+  }
+  .mobile-bar[data-visible] { transform: none; }
+  .mobile-bar :global(.mobile-bar__cta) { flex: 1; }
+  .mobile-bar__tel { flex: none; inline-size: 3rem; padding: 0; background: var(--color-surface); }
+  @media (min-width: 40rem) { .mobile-bar { display: none; } }
+  :global(body) { padding-bottom: 0; }
+  @media (max-width: 39.99rem) { :global(.footer) { padding-bottom: 6rem !important; } }
+</style>
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-mobile-bar]');
+  if (bar) {
+    const hero = document.querySelector('.hero');
+    let visible = false;
+    const update = () => {
+      const limit = hero ? hero.getBoundingClientRect().bottom : 200 - scrollY;
+      const v = limit < 0;
+      if (v !== visible) { visible = v; bar.toggleAttribute('data-visible', v); bar.inert = !v; }
+    };
+    bar.inert = true;
+    addEventListener('scroll', update, { passive: true });
+    update();
+  }
+</script>

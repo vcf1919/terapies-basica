@@ -1,0 +1,104 @@
+---
+/** SERVICIOS · tarjetas (salud, comercio) o lista tipo carta (belleza). Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { resolveTheme } from '../../themes';
+import { anclaDe } from '../../lib/secciones';
+import SectionHead from '../ui/SectionHead.astro';
+import ReserveButton from '../ui/ReserveButton.astro';
+import Img from '../ui/Img.astro';
+import { t } from '../../i18n/es';
+const { config } = getSite();
+const s = config.secciones.servicios!;
+const estilo = resolveTheme(config).servicios;
+const precio = (n: number) => n.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: n % 1 ? 2 : 0 });
+const conImagen = s.items.some((i) => i.imagen);
+---
+<section class:list={['section', 'servicios', `servicios--${estilo}`]} id={anclaDe(config, 'servicios')} aria-labelledby="servicios-title">
+  <div class="container">
+    <SectionHead antetitulo={s.antetitulo} titulo={s.titulo} intro={s.intro} id="servicios-title" split />
+
+    {estilo === 'lista' ? (
+      <ol role="list" class="carta">
+        {s.items.map((it, i) => (
+          <li class="carta__item" data-reveal style={`--i:${i % 4}`}>
+            <span class="carta__num tabular" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <div class="carta__body">
+              <h3 class="carta__name">{it.nombre}</h3>
+              <p class="carta__desc">{it.descripcion}</p>
+            </div>
+            <p class="carta__meta tabular">
+              {it.duracion && <span>{it.duracion} {t.ui.min}</span>}
+              {it.precioDesde && <span class="carta__price"><small>{t.ui.desde}</small> {precio(it.precioDesde)}</span>}
+            </p>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <ul role="list" class:list={['cards', conImagen && 'cards--img']}>
+        {s.items.map((it, i) => (
+          <li class:list={['card', it.destacado && 'card--destacado']} data-reveal style={`--i:${i % 3}`}>
+            {it.imagen && (
+              <div class="card__media media"><Img img={it.imagen} sizes="(min-width: 64rem) 30vw, (min-width: 40rem) 45vw, 100vw" widths={[400, 640, 900]} /></div>
+            )}
+            <div class="card__body">
+              <span class="card__num tabular" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="h3">{it.nombre}</h3>
+              <p class="card__desc">{it.descripcion}</p>
+              {(it.precioDesde || it.duracion) && (
+                <p class="card__meta tabular">
+                  {it.precioDesde && <span><small>{t.ui.desde}</small> <strong>{precio(it.precioDesde)}</strong></span>}
+                  {it.duracion && <span>{it.duracion} {t.ui.min}</span>}
+                </p>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <div class="servicios__foot" data-reveal>
+      {s.nota && <p class="muted">{s.nota}</p>}
+      <ReserveButton variant="ghost" />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Tarjetas */
+  .cards { display: grid; gap: 1rem; }
+  .card { position: relative; display: flex; flex-direction: column; background: var(--card-bg); border: var(--card-border); border-radius: var(--radius-md); overflow: hidden; transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease); }
+  .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: color-mix(in oklab, var(--color-primary) 35%, var(--color-line)); }
+  .card__media { aspect-ratio: 4 / 3; border-radius: 0; }
+  .card__media :global(img) { transition: transform 0.9s var(--ease); }
+  .card:hover .card__media :global(img) { transform: scale(1.04); }
+  .card__body { display: flex; flex-direction: column; gap: 0.75rem; padding: clamp(1.4rem, 3vw, 2rem); flex: 1; }
+  .card__num { font-size: var(--fs-xs); color: var(--color-primary-text); font-weight: 600; letter-spacing: 0.06em; }
+  .card__desc { color: var(--color-ink-soft); font-size: var(--fs-sm); }
+  .card__meta { display: flex; justify-content: space-between; gap: 1rem; margin-top: auto; padding-top: 1.1rem; border-top: var(--rule); font-size: var(--fs-sm); color: var(--color-ink-soft); }
+  .card__meta strong { color: var(--color-ink); font-size: var(--fs-md); }
+  .card--destacado { background: var(--color-primary); color: var(--color-on-primary); border-color: var(--color-primary); --color-ink: var(--color-on-primary); --color-ink-soft: color-mix(in oklab, var(--color-on-primary) 78%, transparent); --color-line: color-mix(in oklab, var(--color-on-primary) 22%, transparent); --color-primary-text: var(--color-on-primary); }
+  @media (min-width: 40rem) { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 64rem) { .cards { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+
+  /* Comercio: producto protagonista */
+  :global([data-variante='comercio']) .cards--img .card__media { aspect-ratio: 1; margin: 0.6rem 0.6rem 0; border-radius: calc(var(--radius-md) - 6px); }
+  :global([data-variante='comercio']) .card__num { display: none; }
+  :global([data-variante='comercio']) .card--destacado { background: var(--color-accent); color: var(--color-on-accent); border-color: var(--color-accent); --color-ink: var(--color-on-accent); --color-ink-soft: color-mix(in oklab, var(--color-on-accent) 75%, transparent); --color-line: color-mix(in oklab, var(--color-on-accent) 22%, transparent); }
+
+  /* Lista tipo carta (belleza) */
+  .carta { border-top: 1px solid var(--color-ink); }
+  .carta__item { display: grid; grid-template-columns: auto 1fr; gap: 0.35rem 1.25rem; padding-block: 1.6rem; border-bottom: var(--rule); transition: background-color var(--dur) var(--ease); }
+  .carta__num { font-size: var(--fs-xs); color: var(--color-ink-soft); padding-top: 0.55rem; letter-spacing: 0.08em; }
+  .carta__name { font-family: var(--font-display); font-size: clamp(1.5rem, 1.2rem + 1.4vw, 2.25rem); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); line-height: 1.1; }
+  .carta__desc { color: var(--color-ink-soft); font-size: var(--fs-sm); max-inline-size: 46ch; margin-top: 0.4rem; }
+  .carta__meta { grid-column: 2; display: flex; gap: 1.25rem; align-items: baseline; font-size: var(--fs-sm); color: var(--color-ink-soft); }
+  .carta__price { color: var(--color-ink); font-family: var(--font-display); font-size: 1.4rem; font-style: italic; }
+  .carta__price small { font-family: var(--font-body); font-style: normal; font-size: var(--fs-xs); color: var(--color-ink-soft); letter-spacing: 0.1em; text-transform: uppercase; }
+  @media (min-width: 48rem) {
+    .carta__item { grid-template-columns: 4rem 1fr auto; align-items: baseline; padding-block: 2rem; }
+    .carta__meta { grid-column: 3; flex-direction: column-reverse; align-items: flex-end; gap: 0.2rem; }
+    .carta__item:hover { background: color-mix(in oklab, var(--color-surface) 70%, transparent); }
+  }
+
+  .servicios__foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem; margin-top: clamp(2rem, 5vw, 3rem); font-size: var(--fs-sm); }
+</style>

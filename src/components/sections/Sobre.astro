@@ -1,0 +1,74 @@
+---
+/** SOBRE NOSOTROS + cifras. Código de PLANTILLA. */
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import { enfasis } from '../../lib/text';
+import Img from '../ui/Img.astro';
+const { config } = getSite();
+const s = config.secciones.sobre!;
+const anios = new Date().getFullYear() - config.negocio.anioApertura;
+const cifras = s.cifras.map((c) => ({
+  ...c,
+  valor: c.valor === 'anios' ? anios : c.valor,
+}));
+const fmtNum = (n: number) => n.toLocaleString('es-ES');
+---
+<section class:list={['section', 'sobre', !s.imagen && 'sobre--sin-imagen']} id={anclaDe(config, 'sobre')} aria-labelledby="sobre-title">
+  <div class="container sobre__grid">
+    {s.imagen && (
+      <div class="sobre__media media" data-reveal="fade">
+        <Img img={s.imagen} sizes="(min-width: 64rem) 40vw, 100vw" />
+      </div>
+    )}
+    <div class="sobre__copy">
+      {s.antetitulo && <p class="eyebrow" data-reveal>{s.antetitulo}</p>}
+      <h2 class="h2" id="sobre-title" data-reveal style="--i:1" set:html={enfasis(s.titulo)} />
+      <div class="sobre__text">
+        {s.parrafos.map((p, i) => <p data-reveal style={`--i:${i + 2}`}>{p}</p>)}
+      </div>
+    </div>
+  </div>
+  {cifras.length > 0 && (
+    <div class="container">
+      <dl class="cifras" style={`--n:${cifras.length}`}>
+        {cifras.map((c, i) => (
+          <div class="cifra" data-reveal style={`--i:${i}`}>
+            <dt class="cifra__label">{c.etiqueta}</dt>
+            <dd class="cifra__valor">
+              {c.prefijo}<span data-count={c.valor}>{fmtNum(c.valor)}</span>{c.sufijo}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  )}
+</section>
+
+<style>
+  .sobre__grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: center; }
+  .sobre__media { aspect-ratio: 4 / 5; }
+  .sobre__copy { display: grid; gap: 1.4rem; }
+  .sobre__text { display: grid; gap: 1rem; color: var(--color-ink-soft); font-size: var(--fs-lg); max-inline-size: var(--max-text); }
+  .sobre__text p:first-child { color: var(--color-ink); }
+  .cifras { display: grid; grid-template-columns: repeat(2, 1fr); margin-top: clamp(3.5rem, 8vw, 6rem); border-top: var(--rule); }
+  .cifra { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.5rem; padding: 1.75rem 1rem 0 0; }
+  .cifra__valor { font-family: var(--font-display); font-size: clamp(2.6rem, 1.8rem + 3.5vw, 4.5rem); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); line-height: 1; color: var(--color-primary-text); }
+  .cifra__label { font-size: var(--fs-sm); color: var(--color-ink-soft); max-inline-size: 16ch; }
+  @media (min-width: 48rem) {
+    .cifras { grid-template-columns: repeat(var(--n), 1fr); }
+    .cifra + .cifra { padding-inline-start: 1.5rem; border-inline-start: var(--rule); }
+  }
+  @media (min-width: 64rem) {
+    .sobre__grid { grid-template-columns: 0.85fr 1fr; }
+    .sobre--sin-imagen .sobre__grid { grid-template-columns: 1fr; }
+    .sobre--sin-imagen .sobre__copy { grid-template-columns: 1fr 1fr; column-gap: 5rem; }
+    .sobre--sin-imagen .sobre__text { grid-column: 2; grid-row: 1 / span 2; align-self: end; }
+  }
+  /* Belleza: imagen a la derecha, cifras en serif cursiva */
+  @media (min-width: 64rem) {
+    :global([data-variante='belleza']) .sobre__media { order: 2; aspect-ratio: 3 / 4; }
+    :global([data-variante='belleza']) .sobre__grid { grid-template-columns: 1fr 0.8fr; }
+  }
+  :global([data-variante='belleza']) .cifra__valor { font-style: italic; font-weight: 400; }
+  :global([data-variante='comercio']) .sobre__media { aspect-ratio: 1; }
+</style>

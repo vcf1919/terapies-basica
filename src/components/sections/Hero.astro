@@ -1,0 +1,152 @@
+---
+/**
+ * HERO · tres composiciones: dividido (salud), editorial (belleza), fondo (comercio).
+ * Se puede forzar con secciones.hero.estilo. Código de PLANTILLA.
+ */
+import { getSite } from '../../lib/config';
+import { resolveTheme } from '../../themes';
+import { direccionLinea } from '../../lib/reservas';
+import { enfasis } from '../../lib/text';
+import { anclaDe } from '../../lib/secciones';
+import { resolveImage } from '../../lib/images';
+import { getImage } from 'astro:assets';
+import Img from '../ui/Img.astro';
+import Icon from '../ui/Icon.astro';
+import ReserveButton from '../ui/ReserveButton.astro';
+import OpenStatus from '../ui/OpenStatus.astro';
+import { t } from '../../i18n/es';
+
+const { config } = getSite();
+const s = config.secciones.hero!;
+const theme = resolveTheme(config);
+const fondo = s.fondo;
+const media = fondo?.tipo === 'imagen' ? fondo.imagen : fondo?.tipo === 'video' ? fondo.poster : undefined;
+const estilo = media ? theme.hero : 'sin-imagen';
+const eyebrow = s.antetitulo ?? `${config.negocio.sector} · ${config.contacto.direccion.localidad}`;
+const poster = fondo?.tipo === 'video'
+  ? (await getImage({ src: await resolveImage(fondo.poster.src), width: 1600, format: 'webp', quality: 70 })).src
+  : undefined;
+const sizes = estilo === 'dividido' ? '(min-width: 64rem) 46vw, 100vw' : '100vw';
+---
+<section class:list={['hero', `hero--${estilo}`]} id={anclaDe(config, 'hero')} aria-labelledby="hero-title">
+  <div class="container hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow" data-reveal>{eyebrow}</p>
+      <h1 id="hero-title" class="h1 hero__title" data-reveal style="--i:1" set:html={enfasis(s.titular)} />
+      {s.subtitulo && <p class="lead hero__lead" data-reveal style="--i:2">{s.subtitulo}</p>}
+      <div class="hero__actions" data-reveal style="--i:3">
+        <ReserveButton variant={estilo === 'fondo' ? 'light' : 'primary'} />
+        {s.ctaSecundario && (
+          <a class:list={['btn', 'btn--ghost', estilo === 'fondo' && 'btn--on-dark']} href={s.ctaSecundario.href}>{s.ctaSecundario.texto}</a>
+        )}
+      </div>
+    </div>
+
+    {media && (
+      <div class="hero__media media" data-reveal="scale">
+        {fondo?.tipo === 'video' ? (
+          <video class="hero__video" autoplay muted loop playsinline preload="none" poster={poster} aria-hidden="true">
+            <source src={fondo.src} type={fondo.src.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+          </video>
+        ) : (
+          <Img img={media} priority sizes={sizes} widths={[480, 768, 1080, 1440, 1920]} />
+        )}
+      </div>
+    )}
+
+    {s.panel && (
+      <aside class="hero__panel" aria-label={t.ui.horarioHoy} data-reveal style="--i:4">
+        <OpenStatus />
+        <dl class="hero__facts">
+          <div>
+            <dt><Icon name="clock" size={16} /><span>{t.ui.horarioHoy}</span></dt>
+            <dd class="tabular" data-today-hours><a href={`#${anclaDe(config, 'ctaFinal')}`}>{t.ui.horario}</a></dd>
+          </div>
+          <div>
+            <dt><Icon name="pin" size={16} /><span>{t.ui.direccion}</span></dt>
+            <dd><a href={config.contacto.googleMaps} target="_blank" rel="noopener">{direccionLinea(config)}</a></dd>
+          </div>
+        </dl>
+      </aside>
+    )}
+  </div>
+</section>
+
+<script>
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll<HTMLVideoElement>('.hero__video').forEach((v) => { v.removeAttribute('autoplay'); v.pause(); });
+  }
+</script>
+
+<style>
+  .hero { position: relative; padding-block: clamp(2rem, 6vw, 4.5rem) clamp(3.5rem, 8vw, 6rem); }
+  .hero__grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); position: relative; }
+  .hero__copy { display: grid; gap: 1.4rem; align-content: center; }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.5rem; }
+  .hero__media img, .hero__video { inline-size: 100%; block-size: 100%; object-fit: cover; }
+
+  /* Panel translúcido */
+  .hero__panel {
+    position: relative; z-index: 2;
+    display: grid; gap: 1rem;
+    padding: 1.25rem 1.4rem;
+    background: color-mix(in oklab, var(--color-surface) 72%, transparent);
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+    border: 1px solid color-mix(in oklab, var(--color-surface) 60%, transparent);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    color: var(--color-ink);
+    max-inline-size: 24rem;
+  }
+  .hero__facts { display: grid; gap: 0.85rem; font-size: var(--fs-sm); }
+  .hero__facts > div { display: grid; gap: 0.15rem; padding-top: 0.85rem; border-top: var(--rule); }
+  .hero__facts dt { display: flex; align-items: center; gap: 0.45rem; font-size: var(--fs-xs); color: var(--color-ink-soft); }
+  .hero__facts dd { font-weight: 600; }
+  .hero__facts a { text-decoration: none; }
+  .hero__facts a:hover { text-decoration: underline; }
+
+  /* ── Dividido (salud) ── */
+  .hero--dividido .hero__media { aspect-ratio: 4 / 5; max-block-size: 70svh; inline-size: 100%; }
+  .hero--dividido .hero__panel { margin: -6.5rem 1rem 0 auto; }
+  @media (min-width: 64rem) {
+    .hero--dividido .hero__grid { grid-template-columns: 1.05fr 0.95fr; align-items: center; column-gap: clamp(3rem, 6vw, 6rem); }
+    .hero--dividido .hero__media { grid-column: 2; grid-row: 1; max-block-size: min(78svh, 46rem); }
+    .hero--dividido .hero__panel { grid-column: 2; grid-row: 1; align-self: end; justify-self: start; margin: 0 0 2.5rem -3.5rem; }
+  }
+
+  /* ── Editorial (belleza) ── */
+  .hero--editorial { padding-top: clamp(2.5rem, 8vw, 6rem); }
+  .hero--editorial .hero__copy { gap: 1.75rem; }
+  .hero--editorial .hero__title { max-inline-size: 15ch; }
+  .hero--editorial .hero__media { aspect-ratio: 4 / 5; margin-inline: calc(var(--gutter) * -1); }
+  .hero--editorial .hero__panel { margin: -7rem 0 0 auto; margin-inline-end: 0; border-radius: 0; }
+  @media (min-width: 48rem) {
+    .hero--editorial .hero__media { aspect-ratio: 16 / 8; margin-inline: 0; }
+    .hero--editorial .hero__copy { grid-template-columns: 1fr auto; align-items: end; column-gap: 4rem; }
+    .hero--editorial .hero__copy > .eyebrow, .hero--editorial .hero__title { grid-column: 1 / -1; }
+    .hero--editorial .hero__lead { padding-top: 1.5rem; border-top: var(--rule); }
+    .hero--editorial .hero__panel { position: absolute; right: 2rem; bottom: 2rem; margin: 0; }
+  }
+  @media (min-width: 64rem) { .hero--editorial .hero__title { font-size: clamp(3rem, 7.4vw, var(--h1-max)); max-inline-size: 13ch; } }
+
+  /* ── Fondo (comercio) ── */
+  .hero--fondo { padding: 0; color: #fff; isolation: isolate; }
+  .hero--fondo .hero__grid { min-block-size: calc(100svh - var(--header-h)); max-block-size: 60rem; align-content: end; padding-block: 6rem 2.5rem; }
+  .hero--fondo .hero__media { position: absolute; inset: 0 calc((100vw - 100%) / -2); border-radius: 0; z-index: -1; }
+  .hero--fondo .hero__media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgb(0 0 0 / .1) 30%, rgb(0 0 0 / .68)), linear-gradient(90deg, rgb(0 0 0 / .35), transparent 70%); }
+  .hero--fondo .hero__title { max-inline-size: 14ch; }
+  .hero--fondo .eyebrow { color: #fff; }
+  .hero--fondo .lead { color: rgb(255 255 255 / .9); }
+  .hero--fondo .hero__title :global(em) { color: var(--color-accent); }
+  .hero--fondo .btn--on-dark { --btn-fg: #fff; --btn-bd: rgb(255 255 255 / .5); }
+  .hero--fondo .btn--on-dark:hover { --btn-bg: #fff; --btn-fg: var(--color-ink); }
+  @media (min-width: 64rem) {
+    .hero--fondo .hero__grid { grid-template-columns: 1fr auto; align-items: end; }
+    .hero--fondo .hero__panel { align-self: end; }
+  }
+
+  /* ── Sin imagen ── */
+  .hero--sin-imagen .hero__grid { padding-block: clamp(2rem, 6vw, 5rem); }
+  @media (min-width: 64rem) { .hero--sin-imagen .hero__grid { grid-template-columns: 1fr auto; align-items: end; } }
+</style>

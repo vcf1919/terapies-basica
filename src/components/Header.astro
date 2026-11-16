@@ -1,0 +1,129 @@
+---
+/** Cabecera sticky con logo, navegación, CTA y menú móvil accesible. Código de PLANTILLA. */
+import { getSite } from '../lib/config';
+import { navItems } from '../lib/secciones';
+import { telHref, telLegible } from '../lib/reservas';
+import type { SeccionKey } from '../lib/schema';
+import Img from './ui/Img.astro';
+import Icon from './ui/Icon.astro';
+import ReserveButton from './ui/ReserveButton.astro';
+import { t } from '../i18n/es';
+
+interface Props { orden: SeccionKey[]; isHome: boolean }
+const { orden, isHome } = Astro.props;
+const { config } = getSite();
+const items = navItems(config, orden, isHome);
+---
+<header class="site-header" data-header>
+  <div class="container site-header__inner">
+    <a class="brand" href="/" aria-label={`${config.negocio.nombre}, ${t.ui.volverInicio.toLowerCase()}`}>
+      <Img img={config.negocio.logo} widths={[240, 480]} sizes="160px" priority class="brand__logo" alt="" />
+    </a>
+
+    <nav class="nav" aria-label={t.menu.principal}>
+      <ul role="list" class="nav__list">
+        {items.map((it) => <li><a href={it.href}>{it.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="site-header__actions">
+      <a class="site-header__tel" href={telHref(config.contacto.telefono)}>
+        <Icon name="phone" size={18} /><span>{telLegible(config.contacto.telefono)}</span>
+      </a>
+      <ReserveButton size="sm" class="site-header__cta" />
+      <button class="burger" type="button" aria-expanded="false" aria-controls="menu-movil" data-menu-toggle>
+        <span class="visually-hidden" data-menu-label>{t.menu.abrir}</span>
+        <span class="burger__lines" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" id="menu-movil" data-menu hidden>
+    <nav aria-label={t.menu.principal} class="container">
+      <ul role="list" class="mobile-menu__list">
+        {items.map((it, i) => <li style={`--i:${i}`}><a href={it.href} data-menu-link>{it.label}</a></li>)}
+      </ul>
+      <div class="mobile-menu__foot">
+        <ReserveButton />
+        <a class="btn btn--ghost" href={telHref(config.contacto.telefono)}><Icon name="phone" />{t.ui.llamar}</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--color-bg) 82%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+  }
+  .site-header[data-scrolled] { border-bottom-color: var(--color-line); }
+  .site-header__inner { display: flex; align-items: center; gap: 1.5rem; block-size: var(--header-h); }
+  .brand { display: flex; align-items: center; flex: none; border-radius: var(--radius-sm); }
+  .brand :global(.brand__logo) { block-size: 2.1rem; inline-size: auto; max-inline-size: 11rem; object-fit: contain; }
+  .nav { display: none; margin-inline: auto; }
+  .nav__list { display: flex; gap: clamp(1rem, 2vw, 2rem); }
+  .nav a { white-space: nowrap; font-size: var(--fs-sm); font-weight: 500; text-decoration: none; padding-block: 0.4rem; background: linear-gradient(currentColor 0 0) left bottom / 0 1px no-repeat; transition: background-size var(--dur) var(--ease); }
+  .nav a:hover { background-size: 100% 1px; }
+  .site-header__actions { display: flex; align-items: center; gap: 0.75rem; margin-inline-start: auto; }
+  .site-header__tel { display: none; align-items: center; gap: 0.45rem; font-size: var(--fs-sm); font-weight: 600; text-decoration: none; }
+  :global(.site-header__cta) { display: none !important; }
+  .burger { inline-size: 2.75rem; block-size: 2.75rem; display: grid; place-items: center; border-radius: var(--radius-btn); border: 1px solid var(--color-line); }
+  .burger__lines { display: grid; gap: 6px; inline-size: 18px; }
+  .burger__lines span { block-size: 1.5px; background: currentColor; transition: transform var(--dur) var(--ease); }
+  [aria-expanded='true'] .burger__lines span:first-child { transform: translateY(3.75px) rotate(45deg); }
+  [aria-expanded='true'] .burger__lines span:last-child { transform: translateY(-3.75px) rotate(-45deg); }
+
+  .mobile-menu { position: fixed; inset: var(--header-h) 0 0; background: var(--color-bg); overflow-y: auto; padding-block: 2rem 3rem; }
+  .mobile-menu__list { display: grid; }
+  .mobile-menu__list a { display: block; padding-block: 0.9rem; border-bottom: var(--rule); font-family: var(--font-display); font-size: 1.75rem; letter-spacing: var(--display-tracking); font-weight: var(--display-weight); text-decoration: none; }
+  .mobile-menu__foot { display: grid; gap: 0.75rem; margin-top: 2rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu[data-open] li { animation: menu-in 0.45s var(--ease) both; animation-delay: calc(var(--i) * 40ms); }
+    @keyframes menu-in { from { opacity: 0; transform: translateY(10px); } }
+  }
+
+  @media (min-width: 40rem) { :global(.site-header__cta) { display: inline-flex !important; } }
+  @media (min-width: 75rem) {
+    .nav { display: block; }
+    .burger { display: none; }
+    .mobile-menu { display: none; }
+  }
+  @media (min-width: 96rem) { .site-header__tel { display: inline-flex; white-space: nowrap; } }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+  const menu = header.querySelector<HTMLElement>('[data-menu]')!;
+  const label = toggle.querySelector('[data-menu-label]')!;
+  const texts = { abrir: label.textContent!, cerrar: 'Cerrar menú' };
+
+  const onScroll = () => header.toggleAttribute('data-scrolled', scrollY > 8);
+  addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  function setOpen(open: boolean) {
+    toggle.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? texts.cerrar : texts.abrir;
+    menu.hidden = !open;
+    menu.toggleAttribute('data-open', open);
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    if (open) menu.querySelector<HTMLElement>('a')?.focus();
+  }
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  menu.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('a')) setOpen(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu.hidden) { setOpen(false); toggle.focus(); }
+    if (e.key === 'Tab' && !menu.hidden) {
+      const f = [toggle, ...menu.querySelectorAll<HTMLElement>('a, button')];
+      const i = f.indexOf(document.activeElement as HTMLElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); f.at(-1)!.focus(); }
+      else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+  matchMedia('(min-width: 75rem)').addEventListener('change', (m) => m.matches && setOpen(false));
+</script>

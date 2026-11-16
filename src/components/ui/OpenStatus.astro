@@ -1,0 +1,14 @@
+---
+/** Indicador "Abierto ahora / Cerrado". Se rellena en el navegador (Europe/Madrid). */
+interface Props { detail?: boolean; class?: string }
+const { detail = true, class: cls } = Astro.props;
+---
+<p class:list={['status', cls]} data-status hidden>
+  <span class="status__dot" aria-hidden="true"></span>
+  <span data-status-label></span>
+  {detail && <span class="status__detail" data-status-detail></span>}
+</p>
+<style>
+  .status__detail { font-weight: 400; color: var(--color-ink-soft); }
+  .status__detail:not(:empty)::before { content: '· '; }
+</style>

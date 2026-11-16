@@ -1,0 +1,19 @@
+---
+/** Cabecera de sección: antetítulo, título (admite *énfasis*) e intro. */
+interface Props { antetitulo?: string; titulo: string; intro?: string; split?: boolean; id?: string; level?: 'h1' | 'h2' }
+const { antetitulo, titulo, intro, split = false, id, level = 'h2' } = Astro.props;
+const Tag = level;
+/* *palabra* → <em>palabra</em> (escapando el resto) */
+const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+const html = esc(titulo).replace(/\*(.+?)\*/g, '<em>$1</em>');
+---
+<header class:list={['section-head', split && 'section-head--split']}>
+  <div class="section-head__title">
+    {antetitulo && <p class="eyebrow" data-reveal>{antetitulo}</p>}
+    <Tag class:list={[level === 'h1' ? 'h1' : 'h2']} id={id} data-reveal style="--i:1" set:html={html} />
+  </div>
+  {intro && <p class="lead" data-reveal style="--i:2">{intro}</p>}
+</header>
+<style>
+  .section-head__title { display: grid; gap: 1.1rem; }
+</style>

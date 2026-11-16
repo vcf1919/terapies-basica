@@ -1,0 +1,125 @@
+---
+/** GALERÍA asimétrica con lightbox ligero (<dialog>). Código de PLANTILLA. */
+import { getImage } from 'astro:assets';
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import { resolveImage } from '../../lib/images';
+import SectionHead from '../ui/SectionHead.astro';
+import Img from '../ui/Img.astro';
+import Icon from '../ui/Icon.astro';
+import { t } from '../../i18n/es';
+const { config } = getSite();
+const s = config.secciones.galeria!;
+const full = await Promise.all(
+  s.imagenes.map(async (im) => (await getImage({ src: await resolveImage(im.src), width: 1800, format: 'webp', quality: 78 })).src),
+);
+---
+<section class="section galeria" id={anclaDe(config, 'galeria')} aria-labelledby="galeria-title">
+  <div class="container">
+    <SectionHead antetitulo={s.antetitulo} titulo={s.titulo} intro={s.intro} id="galeria-title" split />
+    <ul role="list" class="mosaic" data-gallery>
+      {s.imagenes.map((im, i) => (
+        <li class="mosaic__item" data-reveal style={`--i:${i % 3}`}>
+          <figure>
+            <button type="button" class="mosaic__btn media" data-full={full[i]} data-caption={im.pie ?? ''} data-alt={im.alt} aria-label={`${t.ui.ampliar}: ${im.alt}`}>
+              <Img img={im} sizes="(min-width: 64rem) 40vw, (min-width: 40rem) 50vw, 100vw" widths={[400, 700, 1000]} />
+              <span class="mosaic__zoom" aria-hidden="true"><Icon name="expand" size={18} /></span>
+            </button>
+            {im.pie && <figcaption>{im.pie}</figcaption>}
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <dialog class="lightbox" data-lightbox aria-label={s.titulo.replace(/\*/g, '')}>
+    <figure class="lightbox__figure">
+      <img data-lb-img alt="" />
+      <figcaption data-lb-caption></figcaption>
+    </figure>
+    <p class="lightbox__count tabular" data-lb-count aria-live="polite"></p>
+    <button type="button" class="lightbox__btn lightbox__close" data-lb-close aria-label={t.ui.cerrar}><Icon name="close" /></button>
+    <button type="button" class="lightbox__btn lightbox__prev" data-lb-prev aria-label={t.ui.anterior}><Icon name="chevronLeft" /></button>
+    <button type="button" class="lightbox__btn lightbox__next" data-lb-next aria-label={t.ui.siguiente}><Icon name="chevronRight" /></button>
+  </dialog>
+</section>
+
+<style>
+  .mosaic { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, 1fr); grid-auto-flow: dense; }
+  .mosaic__item { min-inline-size: 0; }
+  .mosaic__item figure { display: grid; gap: 0.6rem; block-size: 100%; grid-template-rows: 1fr auto; }
+  .mosaic__item figcaption { font-size: var(--fs-xs); color: var(--color-ink-soft); }
+  .mosaic__btn { display: block; inline-size: 100%; block-size: 100%; min-block-size: 10rem; cursor: zoom-in; }
+  .mosaic__btn :global(img) { position: absolute; inset: 0; transition: transform 0.9s var(--ease); }
+  .mosaic__btn:hover :global(img) { transform: scale(1.04); }
+  .mosaic__item:nth-child(5n + 1) { grid-column: span 2; }
+  .mosaic__item:nth-child(5n + 1) .mosaic__btn { aspect-ratio: 16 / 10; }
+  .mosaic__item:not(:nth-child(5n + 1)) .mosaic__btn { aspect-ratio: 4 / 5; }
+  .mosaic__zoom { position: absolute; right: 0.75rem; bottom: 0.75rem; display: grid; place-items: center; inline-size: 2.5rem; block-size: 2.5rem; border-radius: 50%; background: color-mix(in oklab, var(--color-surface) 80%, transparent); backdrop-filter: blur(8px); color: var(--color-ink); opacity: 0; transform: translateY(6px); transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease); }
+  .mosaic__btn:hover .mosaic__zoom, .mosaic__btn:focus-visible .mosaic__zoom { opacity: 1; transform: none; }
+
+  @media (min-width: 48rem) {
+    .mosaic { grid-template-columns: repeat(6, 1fr); grid-auto-rows: clamp(9rem, 15vw, 13rem); gap: 1rem; }
+    .mosaic__item .mosaic__btn { aspect-ratio: auto !important; }
+    .mosaic__item:nth-child(6n + 1) { grid-column: span 4; grid-row: span 2; }
+    .mosaic__item:nth-child(6n + 2), .mosaic__item:nth-child(6n + 3) { grid-column: span 2; grid-row: span 1; }
+    .mosaic__item:nth-child(6n + 4), .mosaic__item:nth-child(6n + 5), .mosaic__item:nth-child(6n) { grid-column: span 2; grid-row: span 2; }
+  }
+  :global([data-variante='comercio']) .mosaic { gap: 1rem; }
+
+  .lightbox { inline-size: 100vw; block-size: 100dvh; max-inline-size: none; max-block-size: none; padding: 0; border: 0; background: rgb(12 12 12 / .94); color: #fff; }
+  .lightbox[open] { display: grid; place-items: center; }
+  .lightbox::backdrop { background: rgb(0 0 0 / .6); }
+  .lightbox__figure { display: grid; gap: 0.75rem; justify-items: center; padding: 4rem 1rem; }
+  .lightbox__figure img { max-inline-size: min(92vw, 80rem); max-block-size: 80dvh; object-fit: contain; border-radius: 4px; }
+  .lightbox__figure figcaption { font-size: var(--fs-sm); color: rgb(255 255 255 / .8); }
+  .lightbox__count { position: absolute; top: 1.25rem; left: 1.25rem; font-size: var(--fs-xs); color: rgb(255 255 255 / .75); }
+  .lightbox__btn { position: absolute; display: grid; place-items: center; inline-size: 3rem; block-size: 3rem; border-radius: 50%; background: rgb(255 255 255 / .1); color: #fff; transition: background-color var(--dur-fast) var(--ease); }
+  .lightbox__btn:hover { background: rgb(255 255 255 / .22); }
+  .lightbox__btn:focus-visible { box-shadow: 0 0 0 2px #fff; }
+  .lightbox__close { top: 0.75rem; right: 0.75rem; }
+  .lightbox__prev, .lightbox__next { top: 50%; translate: 0 -50%; }
+  .lightbox__prev { left: 0.75rem; }
+  .lightbox__next { right: 0.75rem; }
+  @media (prefers-reduced-motion: no-preference) {
+    .lightbox[open] img { animation: lb-in 0.4s var(--ease); }
+    @keyframes lb-in { from { opacity: 0; transform: scale(0.97); } }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const dialog = gallery.parentElement!.parentElement!.querySelector<HTMLDialogElement>('[data-lightbox]')!;
+    const img = dialog.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const cap = dialog.querySelector<HTMLElement>('[data-lb-caption]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+    const btns = [...gallery.querySelectorAll<HTMLButtonElement>('[data-full]')];
+    let idx = 0;
+    let opener: HTMLElement | null = null;
+
+    const show = (i: number) => {
+      idx = (i + btns.length) % btns.length;
+      const b = btns[idx];
+      img.src = b.dataset.full!;
+      img.alt = b.dataset.alt!;
+      cap.textContent = b.dataset.caption!;
+      count.textContent = `${idx + 1} / ${btns.length}`;
+    };
+    btns.forEach((b, i) => b.addEventListener('click', () => { opener = b; show(i); dialog.showModal(); }));
+    dialog.querySelector('[data-lb-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(idx - 1));
+    dialog.querySelector('[data-lb-next]')!.addEventListener('click', () => show(idx + 1));
+    dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(idx - 1);
+      if (e.key === 'ArrowRight') show(idx + 1);
+    });
+    dialog.addEventListener('close', () => opener?.focus());
+    let x0 = 0;
+    dialog.addEventListener('touchstart', (e) => (x0 = e.touches[0].clientX), { passive: true });
+    dialog.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+    });
+  });
+</script>

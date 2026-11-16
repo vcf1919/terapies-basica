@@ -1,0 +1,142 @@
+---
+/**
+ * OPINIONES DE GOOGLE · carrusel de dos filas en sentidos opuestos.
+ * Se pausa al pasar el ratón, al enfocar y con el botón de pausa. Código de PLANTILLA.
+ */
+import { getSite } from '../../lib/config';
+import { anclaDe } from '../../lib/secciones';
+import { enfasis } from '../../lib/text';
+import Icon from '../ui/Icon.astro';
+import { t, fmt } from '../../i18n/es';
+const { config } = getSite();
+const s = config.secciones.opiniones!;
+const filas = [s.resenas.filter((_, i) => i % 2 === 0), s.resenas.filter((_, i) => i % 2 === 1)];
+const nota = s.notaMedia.toLocaleString('es-ES', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const inicial = (n: string) => n.trim().charAt(0).toUpperCase();
+---
+<section class="section opiniones" id={anclaDe(config, 'opiniones')} aria-labelledby="opiniones-title">
+  <div class="container opiniones__head">
+    <div class="opiniones__title">
+      {s.antetitulo && <p class="eyebrow" data-reveal>{s.antetitulo}</p>}
+      <h2 class="h2" id="opiniones-title" data-reveal style="--i:1" set:html={enfasis(s.titulo)} />
+    </div>
+    <div class="rating" data-reveal style="--i:2">
+      <p class="rating__nota">{nota}</p>
+      <div class="rating__info">
+        <span class="stars" role="img" aria-label={fmt(t.ui.estrellas, { n: nota })} style={`--r:${s.notaMedia}`}>
+          {[1, 2, 3, 4, 5].map(() => <Icon name="star" size={18} />)}
+        </span>
+        <p class="rating__count"><Icon name="google" size={16} /> {s.totalResenas.toLocaleString('es-ES')} {t.ui.resenas}</p>
+        <a class="link-arrow" href={s.urlGoogle} target="_blank" rel="noopener">{t.ui.verEnGoogle}<Icon name="arrow-up-right" /></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="rails" data-rails>
+    {filas.map((fila, f) => {
+      const reps = Math.max(1, Math.ceil(6 / fila.length));
+      const group = Array.from({ length: reps }, () => fila).flat();
+      return (
+        <div class:list={['rail', f === 1 && 'rail--reverse']} style={`--dur:${Math.max(30, group.length * 9)}s`}>
+          <div class="rail__track">
+            {[0, 1].map((g) => (
+              <ul role="list" class="rail__group" aria-hidden={g === 1 ? 'true' : undefined}>
+                {group.map((r, i) => {
+                  const dup = g === 1 || i >= fila.length;
+                  return (
+                    <li class="review" aria-hidden={dup && g === 0 ? 'true' : undefined} data-dup={dup ? '' : undefined}>
+                      <figure>
+                        <span class="stars stars--sm" role="img" aria-label={fmt(t.ui.estrellas, { n: r.nota })} style={`--r:${r.nota}`}>
+                          {[1, 2, 3, 4, 5].map(() => <Icon name="star" size={14} />)}
+                        </span>
+                        <blockquote><p>{r.texto}</p></blockquote>
+                        <figcaption>
+                          <span class="review__avatar" aria-hidden="true">{inicial(r.autor)}</span>
+                          <span><strong>{r.autor}</strong>{r.fecha && <small>{r.fecha}</small>}</span>
+                        </figcaption>
+                      </figure>
+                    </li>
+                  );
+                })}
+              </ul>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+    <div class="container rails__controls">
+      <button type="button" class="rails__pause" aria-pressed="false" data-rails-pause>
+        <Icon name="pause" size={16} class="i-pause" /><Icon name="play" size={16} class="i-play" />
+        <span data-label-pause>{t.ui.pausar}</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .opiniones { overflow: hidden; }
+  .opiniones__head { display: grid; gap: 2rem; margin-bottom: clamp(2.5rem, 6vw, 4rem); }
+  .opiniones__title { display: grid; gap: 1.1rem; }
+  .rating { display: flex; gap: 1.25rem; align-items: center; }
+  .rating__nota { font-family: var(--font-display); font-size: clamp(3.5rem, 2.5rem + 4vw, 5.5rem); line-height: 0.9; font-weight: var(--display-weight); letter-spacing: var(--display-tracking); }
+  .rating__info { display: grid; gap: 0.3rem; font-size: var(--fs-sm); }
+  .rating__count { display: flex; align-items: center; gap: 0.4rem; color: var(--color-ink-soft); }
+  @media (min-width: 60rem) { .opiniones__head { grid-template-columns: 1fr auto; align-items: end; } }
+
+  .stars { display: inline-flex; gap: 2px; color: #e3a008; }
+  .stars :global(svg:nth-child(n + 6)) { display: none; }
+  .stars { -webkit-mask: linear-gradient(90deg, #000 calc(var(--r) / 5 * 100%), rgb(0 0 0 / .25) 0); mask: linear-gradient(90deg, #000 calc(var(--r) / 5 * 100%), rgb(0 0 0 / .25) 0); }
+  .stars--sm { color: #d99a06; }
+
+  .rails { display: grid; gap: 1rem; }
+  .rail { overflow: hidden; -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .rail__track { display: flex; inline-size: max-content; }
+  .rail__group { display: flex; gap: 1rem; padding-inline-end: 1rem; }
+  .review { inline-size: min(82vw, 22rem); flex: none; }
+  .review figure { block-size: 100%; display: flex; flex-direction: column; gap: 0.9rem; padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-line); border-radius: var(--radius-md); }
+  .review blockquote { font-size: var(--fs-sm); line-height: 1.6; flex: 1; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; }
+  .review figcaption { display: flex; align-items: center; gap: 0.75rem; font-size: var(--fs-sm); }
+  .review figcaption span:last-child { display: grid; }
+  .review small { color: var(--color-ink-soft); font-size: var(--fs-xs); }
+  .review__avatar { display: grid; place-items: center; inline-size: 2.25rem; block-size: 2.25rem; border-radius: 50%; background: var(--color-primary-soft); color: var(--color-primary-text); font-weight: 700; flex: none; }
+  :global([data-variante='belleza']) .review figure { background: transparent; border-width: 0 0 0 1px; border-radius: 0; padding-block: 0.5rem; }
+  :global([data-variante='belleza']) .review blockquote { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.45; }
+
+  .rails__controls { display: flex; justify-content: flex-end; }
+  .rails__pause { display: inline-flex; align-items: center; gap: 0.5rem; min-block-size: 2.75rem; padding-inline: 0.9rem; font-size: var(--fs-xs); color: var(--color-ink-soft); border-radius: var(--radius-btn); }
+  .rails__pause:hover { color: var(--color-ink); }
+  .rails__pause :global(.i-play), [aria-pressed='true'] :global(.i-pause) { display: none; }
+  [aria-pressed='true'] :global(.i-play) { display: block; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rail__track { animation: rail var(--dur) linear infinite; }
+    .rail--reverse .rail__track { animation-direction: reverse; }
+    .rails:hover .rail__track, .rails:focus-within .rail__track, .rails[data-paused] .rail__track { animation-play-state: paused; }
+    @keyframes rail { to { transform: translateX(-50%); } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rail { overflow-x: auto; scroll-snap-type: x mandatory; mask: none; -webkit-mask: none; padding-inline: var(--gutter); }
+    .rail__group[aria-hidden], .review[data-dup] { display: none; }
+    .review { scroll-snap-align: start; }
+    .rails__controls { display: none; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-rails]').forEach((rails) => {
+    const btn = rails.querySelector<HTMLButtonElement>('[data-rails-pause]')!;
+    const label = btn.querySelector('[data-label-pause]')!;
+    const txt = { pausar: label.textContent!, reanudar: 'Reanudar el carrusel' };
+    btn.addEventListener('click', () => {
+      const paused = btn.getAttribute('aria-pressed') !== 'true';
+      btn.setAttribute('aria-pressed', String(paused));
+      rails.toggleAttribute('data-paused', paused);
+      label.textContent = paused ? txt.reanudar : txt.pausar;
+    });
+    // Ahorra CPU: pausa cuando la sección no está en pantalla
+    new IntersectionObserver(([e]) => rails.toggleAttribute('data-offscreen', !e.isIntersecting)).observe(rails);
+  });
+</script>
+<style is:global>
+  [data-offscreen] .rail__track { animation-play-state: paused !important; }
+</style>
